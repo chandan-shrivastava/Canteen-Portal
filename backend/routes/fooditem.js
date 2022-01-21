@@ -45,12 +45,12 @@ router.post("/fooditem/delete", (req, res) => {
         _id: req.body._id,
     });
     newUser.deleteOne({ _id: newUser._id })
-    .then(function () {
-        console.log("Document deleted");
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+        .then(function () {
+            console.log("Document deleted");
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 });
 
 module.exports = router;

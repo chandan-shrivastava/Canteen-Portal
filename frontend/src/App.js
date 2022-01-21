@@ -12,6 +12,7 @@ import FoodMenu from "./components/users/FoodMenuDashboard";
 import FoodItem from "./components/users/AddFoodItem";
 import Login from "./components/common/Login";
 import FoodItems from "./components/users/FoodItems";
+import PlaceOrder from "./components/users/PlaceOrder";
 
 const Layout = () => {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="vendor/foodmenu" element={<FoodMenu />} />
           <Route path="fooditems" element={<FoodItems />} />
           <Route path="vendor/addfood" element={<FoodItem />} />
+          <Route path="placeorder" element={<PlaceOrder />} />
         </Route>
       </Routes>
     </BrowserRouter>

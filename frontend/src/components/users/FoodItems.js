@@ -14,18 +14,11 @@ import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import axios from "axios";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import ls from "local-storage";
 
 const FoodItems = (props) => {
 	const [users, setUsers] = useState([]);
 	const [Type, setType] = useState("");
-
-	const onChangeType = (event) => {
-		setType(event.target.value);
-	};
 
 	useEffect(() => {
 		axios
@@ -38,38 +31,20 @@ const FoodItems = (props) => {
 			});
 	}, []);
 
-
 	const navigate = useNavigate();
-	const onSubmit = (event) => {
-		event.preventDefault();
-		navigate('/vendor/addfood');
-	};
-	/**
-	 *
-	 * @param id - The id of the product
-	 */
-	const onDelete = ({ id }) => {
 
-		const newUser = {
-			_id: id,
-		};
-
-		console.log(newUser);
-		const success = false;
-		axios
-			.post("http://localhost:4000/vendor/fooditem/delete", newUser)
-			.then((response) => {
-				alert("Deleted" + " " + response.data.name + " Successfully");
-				console.log(response.data);
-				success = true;
-			})
-			.catch(function (res) {
-				alert(res.response.data[Object.keys(res.response.data)[0]]);
-			});
-		if (success) {
-			window.location.reload();
-		}
+	const onSubmit = ({ name,price,shopname,vegornveg,addon1,addon2,addon3,addon4 }) => {
+		ls.set("itemname", name);
+		ls.set("itemprice", price);
+		ls.set("itemshopname", shopname);
+		ls.set("itemvegornveg", vegornveg);
+		ls.set("itemaddon1", addon1);
+		ls.set("itemaddon2", addon2);
+		ls.set("itemaddon3", addon3);
+		ls.set("itemaddon4", addon4);
+		navigate('/placeorder');
 	};
+
 
 	return (
 		<>
@@ -91,9 +66,6 @@ const FoodItems = (props) => {
 						<Button color="inherit" onClick={() => navigate("/profile")}>
 							My Profile
 						</Button>
-						<Button variant="inherit" onClick={() => navigate("/placeorder")}>
-							Place Order
-						</Button>
 					</Toolbar>
 				</AppBar>
 			</Box>
@@ -114,7 +86,7 @@ const FoodItems = (props) => {
 									<TableCell>Addon 3</TableCell>
 									<TableCell>Addon 4</TableCell>
 									<TableCell>Tags</TableCell>
-									<TableCell>Choose Addon</TableCell>
+									<TableCell></TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -132,17 +104,9 @@ const FoodItems = (props) => {
 										<TableCell>{user.addon4}</TableCell>
 										<TableCell>{user.tags}</TableCell>
 										<TableCell>
-											<FormControl style={{ minWidth: 235 }}>
-												<InputLabel>Type</InputLabel>
-												<Select
-													value={Type}
-													label="Type"
-													onChange={onChangeType}
-												>
-													<MenuItem value="Vendor">Vendor</MenuItem>
-													<MenuItem value="Buyer">Buyer</MenuItem>
-												</Select>
-											</FormControl>
+											<Button variant="contained" onClick={() => onSubmit({ name: user.name, price: user.price, shopname: user.shopname, vegornveg:user.vegornveg,addon1:user.addon1,addon2:user.addon2,addon3:user.addon3,addon4:user.addon4 })}>
+												Order
+											</Button>
 										</TableCell>
 									</TableRow>
 								))}
