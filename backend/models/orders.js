@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const autoIncrement = require('mongoose-auto-increment');
-autoIncrement.initialize(connection);
 
 
 const ordersschema = new Schema({
@@ -21,6 +19,10 @@ const ordersschema = new Schema({
         type: String,
         required: false
     },
+    vegornveg: {
+        type: String,
+        required: false
+    },
     status: {
         type: String,
         required: false
@@ -33,10 +35,13 @@ const ordersschema = new Schema({
         type: String,
         required: false
     },
+    rating: {
+        type: String,
+        required: false
+    },
     date: {
         type: String,
         required: false
     },
 });
-ordersschema.plugin(autoIncrement.plugin, 'orders');
 module.exports = orders = mongoose.model("orders", ordersschema);

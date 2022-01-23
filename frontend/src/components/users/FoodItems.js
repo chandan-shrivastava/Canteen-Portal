@@ -60,11 +60,14 @@ const FoodItems = (props) => {
 							Canteen Portal
 						</Typography>
 						<Box sx={{ flexGrow: 1 }} />
-						<Button color="inherit" onClick={() => navigate("/users")}>
-							Users
-						</Button>
 						<Button color="inherit" onClick={() => navigate("/profile")}>
 							My Profile
+						</Button>
+						<Button color="inherit" onClick={() => navigate("/buyer/orders")}>
+							Orders
+						</Button>
+						<Button  variant="contained" color="info" onClick={() => navigate("/buyer/fooditems")}>
+							Food Menu
 						</Button>
 					</Toolbar>
 				</AppBar>

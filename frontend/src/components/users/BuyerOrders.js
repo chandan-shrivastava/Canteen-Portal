@@ -15,13 +15,13 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import axios from "axios";
 
-const FoodMenu = (props) => {
+const BuyerOrders = (props) => {
 	const [users, setUsers] = useState([]);
 
 
 	useEffect(() => {
 		axios
-			.get("http://localhost:4000/vendor")
+			.get("http://localhost:4000/orders")
 			.then((response) => {
 				setUsers(response.data);
 			})
@@ -84,66 +84,47 @@ const FoodMenu = (props) => {
 						<Button color="inherit" onClick={() => navigate("/profile")}>
 							My Profile
 						</Button>
-						<Button color="inherit" onClick={() => navigate("/vendor/orders")}>
+						<Button variant="contained" color="info" onClick={() => navigate("/buyer/orders")}>
 							Orders
 						</Button>
-						<Button variant="contained" color="info" onClick={() => navigate("/vendor/foodmenu")}>
+						<Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
 							Food Menu
 						</Button>
 					</Toolbar>
 				</AppBar>
 			</Box>
-			<Grid style={{ marginTop: "100px" }} container align={"center"} spacing={2}>
+			<Grid style={{ marginTop: "60px" }} container align={"center"} spacing={2}>
 				<Grid item xs={12}>
-					<Button variant="contained" onClick={onSubmit}>
-						Add Food Item
-					</Button>
+					<h1>Your Orders</h1>
 				</Grid>
 				<Grid item xs={12}>
 					<Paper>
 						<Table size="small">
 							<TableHead>
 								<TableRow>
-									<TableCell> Sr No.</TableCell>
-									<TableCell>Name</TableCell>
-									<TableCell>Price</TableCell>
+									<TableCell>Sr. No.</TableCell>
+									<TableCell>Time</TableCell>
 									<TableCell>Shop Name</TableCell>
-									<TableCell>Rating</TableCell>
-									<TableCell>Type</TableCell>
-									<TableCell>Addon 1</TableCell>
-									<TableCell>Addon 2</TableCell>
-									<TableCell>Addon 3</TableCell>
-									<TableCell>Addon 4</TableCell>
-									<TableCell>Tags</TableCell>
-									{/* <TableCell>Edit</TableCell> */}
-									<TableCell>Delete</TableCell>
+									<TableCell>Item</TableCell>
+									<TableCell>Quantity</TableCell>
+									<TableCell>Veg/N.Veg</TableCell>
+									<TableCell>Addon</TableCell>
+									<TableCell>Cost</TableCell>
+									<TableCell>Status</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
 								{users.map((user, ind) => (
 									<TableRow key={ind}>
 										<TableCell>{ind + 1}</TableCell>
-										<TableCell>{user.name}</TableCell>
-										<TableCell>{user.price}</TableCell>
-										<TableCell>{user.shopname}</TableCell>
-										<TableCell>{user.rating}</TableCell>
+										<TableCell>{user.date}</TableCell>
+										<TableCell>{user.vendorname}</TableCell>
+										<TableCell>{user.item}</TableCell>
+										<TableCell>{user.quantity}</TableCell>
 										<TableCell>{user.vegornveg}</TableCell>
-										<TableCell>{user.addon1}</TableCell>
-										<TableCell>{user.addon2}</TableCell>
-										<TableCell>{user.addon3}</TableCell>
-										<TableCell>{user.addon4}</TableCell>
-										<TableCell>{user.tags}</TableCell>
-										{/* <TableCell>
-											
-											<Button variant="contained" onClick={onEdit}>
-												Edit
-											</Button>
-										</TableCell> */}
-										<TableCell>
-											<Button variant="contained" onClick={() => onDelete({ id: user._id })}>
-												Delete
-											</Button>
-										</TableCell>
+										<TableCell>{user.addon}</TableCell>
+										<TableCell>{user.cost}</TableCell>
+										<TableCell>{user.status}</TableCell>
 									</TableRow>
 								))}
 							</TableBody>
@@ -155,4 +136,4 @@ const FoodMenu = (props) => {
 	);
 };
 
-export default FoodMenu;
+export default BuyerOrders;

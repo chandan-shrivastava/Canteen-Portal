@@ -21,100 +21,100 @@ const Profile = (props) => {
   if (ls.get("type") === "Buyer") {
     return (
       <>
-      <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
-      <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ cursor: "pointer" }}
-            onClick={() => navigate("/")}
-          >
-            Canteen Portal
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Button color="inherit" onClick={() => navigate("/users")}>
-            Users
-          </Button>
-          <Button color="inherit" variant="contained" color="info" onClick={() => navigate("/profile")}>
-            My Profile
-          </Button>
-          <Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
-            Food Menu
-          </Button>
-        </Toolbar>
-      </AppBar>
-    </Box> 
-      <Grid
-      style={{ marginTop: "100px" }}
-        align={"center"}
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            label="Name"
-            defaultValue={ls.get("name")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Email"
-            defaultValue={ls.get("email")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Contact"
-            defaultValue={ls.get("contact")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Age"
-            defaultValue={ls.get("age")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Batch"
-            defaultValue={ls.get("batch")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Wallet"
-            defaultValue={ls.get("wallet")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <Button variant="contained" onClick={onSubmit}>
-            Edit
-          </Button>
-        </div>
-      </Grid>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="fixed">
+            <Toolbar>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ cursor: "pointer" }}
+                onClick={() => navigate("/")}
+              >
+                Canteen Portal
+              </Typography>
+              <Box sx={{ flexGrow: 1 }} />
+              <Button color="inherit" variant="contained" color="info" onClick={() => navigate("/profile")}>
+                My Profile
+              </Button>
+              <Button color="inherit" onClick={() => navigate("/buyer/orders")}>
+                Orders
+              </Button>
+              <Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
+                Food Menu
+              </Button>
+            </Toolbar>
+          </AppBar>
+        </Box>
+        <Grid
+          style={{ marginTop: "100px" }}
+          align={"center"}
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <div>
+            <TextField
+              label="Name"
+              defaultValue={ls.get("name")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Email"
+              defaultValue={ls.get("email")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Contact"
+              defaultValue={ls.get("contact")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Age"
+              defaultValue={ls.get("age")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Batch"
+              defaultValue={ls.get("batch")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Wallet"
+              defaultValue={ls.get("wallet")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <Button variant="contained" onClick={onSubmit}>
+              Edit
+            </Button>
+          </div>
+        </Grid>
       </>
     );
   }
@@ -133,110 +133,110 @@ const Profile = (props) => {
     }
     return (
       <>
-      <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
-      <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ cursor: "pointer" }}
-            onClick={() => navigate("/")}
-          >
-            Canteen Portal
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Button color="inherit" onClick={() => navigate("/users")}>
-            Users
-          </Button>
-          <Button color="inherit" onClick={() => navigate("/profile")}>
-            My Profile
-          </Button>
-          <Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
-            Food Menu
-          </Button>
-        </Toolbar>
-      </AppBar>
-    </Box> 
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="fixed">
+            <Toolbar>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ cursor: "pointer" }}
+                onClick={() => navigate("/")}
+              >
+                Canteen Portal
+              </Typography>
+              <Box sx={{ flexGrow: 1 }} />
+              <Button color="inherit" variant="contained" color="info" onClick={() => navigate("/profile")}>
+                My Profile
+              </Button>
+              <Button color="inherit" onClick={() => navigate("/vendor/orders")}>
+                Orders
+              </Button>
+              <Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
+                Food Menu
+              </Button>
+            </Toolbar>
+          </AppBar>
+        </Box>
 
-      <Grid
-      style={{ marginTop: "100px" }}
-        align={"center"}
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            label="Name"
-            defaultValue={ls.get("name")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Email"
-            defaultValue={ls.get("email")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Contact"
-            defaultValue={ls.get("contact")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Shop Name"
-            defaultValue={ls.get("shopname")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Opening Time"
-            defaultValue={opening}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Closing Time"
-            defaultValue={closing}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <TextField
-            label="Wallet"
-            defaultValue={ls.get("wallet")}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
-        </div>
-        <div>
-          <Button variant="contained" onClick={onSubmit}>
-            Edit
-          </Button>
-        </div>
-      </Grid>
+        <Grid
+          style={{ marginTop: "100px" }}
+          align={"center"}
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <div>
+            <TextField
+              label="Name"
+              defaultValue={ls.get("name")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Email"
+              defaultValue={ls.get("email")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Contact"
+              defaultValue={ls.get("contact")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Shop Name"
+              defaultValue={ls.get("shopname")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Opening Time"
+              defaultValue={opening}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Closing Time"
+              defaultValue={closing}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              label="Wallet"
+              defaultValue={ls.get("wallet")}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <div>
+            <Button variant="contained" onClick={onSubmit}>
+              Edit
+            </Button>
+          </div>
+        </Grid>
       </>
     );
   }

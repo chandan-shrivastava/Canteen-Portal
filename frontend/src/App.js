@@ -13,11 +13,12 @@ import FoodItem from "./components/users/AddFoodItem";
 import Login from "./components/common/Login";
 import FoodItems from "./components/users/FoodItems";
 import PlaceOrder from "./components/users/PlaceOrder";
+import BuyerOrders from "./components/users/BuyerOrders";
+import VendorOrders from "./components/users/VendorOrders";
 
 const Layout = () => {
   return (
     <div>
-      {/* <Navbar /> */}
       <div className="container">
         <Outlet />
       </div>
@@ -37,9 +38,11 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="profile/edit" element={<ProfileEdit />} />
           <Route path="vendor/foodmenu" element={<FoodMenu />} />
-          <Route path="fooditems" element={<FoodItems />} />
+          <Route path="buyer/fooditems" element={<FoodItems />} />
           <Route path="vendor/addfood" element={<FoodItem />} />
-          <Route path="placeorder" element={<PlaceOrder />} />
+          <Route path="buyer/placeorder" element={<PlaceOrder />} />
+          <Route path="buyer/orders" element={<BuyerOrders />} />
+          <Route path="vendor/orders" element={<VendorOrders />} />
         </Route>
       </Routes>
     </BrowserRouter>

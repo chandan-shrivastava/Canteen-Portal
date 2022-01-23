@@ -14,7 +14,10 @@ import InputLabel from '@mui/material/InputLabel';
 import ls from "local-storage";
 import axios from "axios";
 import Select from '@mui/material/Select';
-var finalprice=0;
+
+var finalprice = 0;
+var addonprice = 0;
+var addonadded = false;
 
 const FoodItems = (props) => {
 
@@ -23,43 +26,53 @@ const FoodItems = (props) => {
 
     const onChangeQuantity = (event) => {
         var value = parseInt(event.target.value, 10);
-
         if (value > 10) value = 10;
         if (value < 1) value = 1;
-        finalprice = (value * ls.get("itemprice"));
-        console.log(finalprice);
+        finalprice = (addonprice * value) + (value * ls.get("itemprice"));
         setQuantity(value);
     };
 
     const onChangeAddon = (event) => {
         let text = event.target.value;
         const myArray = text.split(",");
-        let length =  myArray.length;
-        finalprice = finalprice + parseInt(myArray[length-1]);
-        console.log(finalprice);
+        let length = myArray.length;
+        if (addonadded) {
+            finalprice = finalprice - addonprice;
+            addonadded = false;
+            addonprice = 0;
+        }
+        finalprice = finalprice + parseInt(myArray[length - 1]);
+        addonprice = parseInt(myArray[length - 1]);
+        addonadded = true;
         setAddon(event.target.value);
     };
 
     const navigate = useNavigate();
     const onSubmit = (event) => {
         event.preventDefault();
+        var today = new Date();
+        var date = today.getDate() + '-' +(today.getMonth()+1)+'-'+today.getFullYear();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
         const newUser = {
-            itemname: ls.get("itemname"),
+            item: ls.get("itemname"),
             buyername: ls.get("name"),
-            itemprice: ls.get("itemprice"),
-            itemshopname: ls.get("itemshopname"),
-            itemvegornveg: ls.get("itemvegornveg"),
-            itemquantity: quantity,
-            itemaddon: addon,
-            date: Date.now(),
+            cost: finalprice,
+            vendorname: ls.get("itemshopname"),
+            vegornveg: ls.get("itemvegornveg"),
+            quantity: quantity,
+            addon: addon,
+            date: dateTime,
+            status: "PLACED",
+            rating: 0,
         };
         console.log(newUser);
-        //   axios
-        //     .post("http://localhost:4000/user/register", newUser)
-        //     .then((response) => {
-        //       alert("Registered" + " " + response.data.name + " Successfully");
-        //       console.log(response.data);
-        //     });
+          axios
+            .post("http://localhost:4000/orders/placeorder", newUser)
+            .then((response) => {
+              alert("Order Placed Successfully");
+              console.log(response.data);
+            });
         // navigate('/vendor/addfood');
     };
 
@@ -77,15 +90,15 @@ const FoodItems = (props) => {
                             Canteen Portal
                         </Typography>
                         <Box sx={{ flexGrow: 1 }} />
-                        <Button color="inherit" onClick={() => navigate("/users")}>
-                            Users
-                        </Button>
                         <Button color="inherit" onClick={() => navigate("/profile")}>
-                            My Profile
-                        </Button>
-                        <Button variant="inherit" onClick={() => navigate("/fooditems")}>
-                            Food Items
-                        </Button>
+							My Profile
+						</Button>
+						<Button color="inherit" onClick={() => navigate("/buyer/orders")}>
+							Orders
+						</Button>
+						<Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
+							Food Menu
+						</Button>
                     </Toolbar>
                 </AppBar>
             </Box>
@@ -139,7 +152,6 @@ const FoodItems = (props) => {
                             label="Choose Addon"
                             onChange={onChangeAddon}
                         >
-                            <MenuItem value="None">None</MenuItem>
                             {ls.get("itemaddon1") !== "" &&
                                 <MenuItem value={ls.get("itemaddon1")}>{ls.get("itemaddon1")}</MenuItem>
                             }
@@ -170,7 +182,8 @@ const FoodItems = (props) => {
                 <Grid item xs={12}>
                     <TextField
                         label="Total Price"
-                        // defaultValue={finalprice}
+                        defaultValue={finalprice}
+                        key={finalprice}
                         variant="outlined"
                         InputProps={{
                             readOnly: true,

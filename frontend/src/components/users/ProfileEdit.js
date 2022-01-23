@@ -90,16 +90,16 @@ const ProfileEdit = (props) => {
 				alert("Edited" + " " + response.data.name + " Successfully");
 				console.log(response.data);
 				ls.set("name", response.data.name);
-			ls.set("email", response.data.email);
-			ls.set("contact", response.data.contact);
-			ls.set("type", response.data.Type);
-			ls.set("age", response.data.age);
-			ls.set("batch", response.data.batch);
-			ls.set("passwd", response.data.passwd);
-			ls.set("shopname", response.data.shopname);
-			ls.set("openingtime", response.data.openingtime);
-			ls.set("closingtime", response.data.closingtime);
-			navigate('/profile');
+				ls.set("email", response.data.email);
+				ls.set("contact", response.data.contact);
+				ls.set("type", response.data.Type);
+				ls.set("age", response.data.age);
+				ls.set("batch", response.data.batch);
+				ls.set("passwd", response.data.passwd);
+				ls.set("shopname", response.data.shopname);
+				ls.set("openingtime", response.data.openingtime);
+				ls.set("closingtime", response.data.closingtime);
+				navigate('/profile');
 			});
 	};
 
@@ -131,151 +131,179 @@ const ProfileEdit = (props) => {
 
 	return (
 		<>
-		<Box sx={{ flexGrow: 1 }}>
-		<AppBar position="fixed">
-		<Toolbar>
-			<Typography
-			  variant="h6"
-			  component="div"
-			  sx={{ cursor: "pointer" }}
-			  onClick={() => navigate("/")}
-			>
-			  Canteen Portal
-			</Typography>
-			<Box sx={{ flexGrow: 1 }} />
-			<Button color="inherit" onClick={() => navigate("/users")}>
-			  Users
-			</Button>
-			<Button color="inherit" variant="contained" color="info" onClick={() => navigate("/profile")}>
-			  My Profile
-			</Button>
-			<Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
-			  Food Menu
-			</Button>
-		  </Toolbar>
-		</AppBar>
-	  </Box> 
-		<LocalizationProvider dateAdapter={AdapterDateFns}>
-			<Grid style={{ marginTop: "100px" }} container align={"center"} spacing={2} >
-				<Grid item xs={12}>
-					<TextField
-						label="Name"
-						defaultValue={ls.get("name")}
-						variant="outlined"
-						onChange={onChangeUsername}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						label="Email"
-						defaultValue={ls.get("email")}
-						variant="outlined"
-						onChange={onChangeEmail}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						label="Contact"
-						defaultValue={ls.get("contact")}
-						variant="outlined"
-						onChange={onChangeContact}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<FormControl style={{ maxWidth: 235 }} variant="outlined">
-						<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-						<OutlinedInput
-							id="outlined-adornment-password"
-							type={values.showPassword ? 'text' : 'password'}
-							defaultValue={ls.get("passwd")}
-							onChange={onChangepasswd}
-							endAdornment={
-								<InputAdornment position="end">
-									<IconButton
-										aria-label="toggle password visibility"
-										onClick={handleClickShowPassword}
-										edge="end"
-									>
-										{values.showPassword ? <VisibilityOff /> : <Visibility />}
-									</IconButton>
-								</InputAdornment>
-							}
-							label="Password"
-						/>
-					</FormControl>
-				</Grid>
-			</Grid>
-			<br />
+			{ls.get("type") === "Vendor" &&
+				<Box sx={{ flexGrow: 1 }}>
+					<AppBar position="fixed">
+						<Toolbar>
+							<Typography
+								variant="h6"
+								component="div"
+								sx={{ cursor: "pointer" }}
+								onClick={() => navigate("/")}
+							>
+								Canteen Portal
+							</Typography>
+							<Box sx={{ flexGrow: 1 }} />
+							<Button color="inherit" variant="contained" color="info" onClick={() => navigate("/profile")}>
+								My Profile
+							</Button>
+							<Button color="inherit" onClick={() => navigate("/vendor/orders")}>
+								Orders
+							</Button>
+							<Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
+								Food Menu
+							</Button>
+						</Toolbar>
+					</AppBar>
+				</Box>
+			}
 			{ls.get("type") === "Buyer" &&
-				<Grid container align={"center"} spacing={2}>
+				<Box sx={{ flexGrow: 1 }}>
+					<AppBar position="fixed">
+						<Toolbar>
+							<Typography
+								variant="h6"
+								component="div"
+								sx={{ cursor: "pointer" }}
+								onClick={() => navigate("/")}
+							>
+								Canteen Portal
+							</Typography>
+							<Box sx={{ flexGrow: 1 }} />
+							<Button color="inherit" variant="contained" color="info" onClick={() => navigate("/profile")}>
+								My Profile
+							</Button>
+							<Button color="inherit" onClick={() => navigate("/buyer/orders")}>
+								Orders
+							</Button>
+							<Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
+								Food Menu
+							</Button>
+						</Toolbar>
+					</AppBar>
+				</Box>
+			}
+			<LocalizationProvider dateAdapter={AdapterDateFns}>
+				<Grid style={{ marginTop: "100px" }} container align={"center"} spacing={2} >
 					<Grid item xs={12}>
 						<TextField
-							label="Age"
+							label="Name"
+							defaultValue={ls.get("name")}
 							variant="outlined"
-							type="number"
-							defaultValue={ls.get("age")}
-							onChange={onChangeAge}
+							onChange={onChangeUsername}
 						/>
 					</Grid>
 					<Grid item xs={12}>
-						<FormControl style={{ minWidth: 235 }}>
-							<InputLabel>Batch</InputLabel>
-							<Select
-								defaultValue={ls.get("batch")}
-								label="batch"
-								onChange={onChangeBatch}
-							>
-								<MenuItem value="UG1">UG1</MenuItem>
-								<MenuItem value="UG2">UG2</MenuItem>
-								<MenuItem value="UG3">UG3</MenuItem>
-								<MenuItem value="UG4">UG4</MenuItem>
-								<MenuItem value="UG5">UG5</MenuItem>
-							</Select>
+						<TextField
+							label="Email"
+							defaultValue={ls.get("email")}
+							variant="outlined"
+							onChange={onChangeEmail}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
+							label="Contact"
+							defaultValue={ls.get("contact")}
+							variant="outlined"
+							onChange={onChangeContact}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<FormControl style={{ maxWidth: 235 }} variant="outlined">
+							<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+							<OutlinedInput
+								id="outlined-adornment-password"
+								type={values.showPassword ? 'text' : 'password'}
+								defaultValue={ls.get("passwd")}
+								onChange={onChangepasswd}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											edge="end"
+										>
+											{values.showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								label="Password"
+							/>
 						</FormControl>
 					</Grid>
-
-					<Grid item xs={12}>
-						<Button variant="contained" onClick={onSubmit}>
-							Submit
-						</Button>
-					</Grid>
 				</Grid>
-			}
-			{ls.get("type") === "Vendor" &&
-				<Grid container align={"center"} spacing={2}>
-					<Grid item xs={12}>
-						<TextField
-							label="Shop Name"
-							variant="outlined"
-							defaultValue={ls.get("shopname")}
-							onChange={onChangeShopName}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							label="Opening Time"
-							variant="outlined"
-							defaultValue={opening}
-							onChange={onChangeShopName}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							label="Closing Time"
-							variant="outlined"
-							defaultValue={closing}
-							onChange={onChangeShopName}
-						/>
-					</Grid>
+				<br />
+				{ls.get("type") === "Buyer" &&
+					<Grid container align={"center"} spacing={2}>
+						<Grid item xs={12}>
+							<TextField
+								label="Age"
+								variant="outlined"
+								type="number"
+								defaultValue={ls.get("age")}
+								onChange={onChangeAge}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl style={{ minWidth: 235 }}>
+								<InputLabel>Batch</InputLabel>
+								<Select
+									defaultValue={ls.get("batch")}
+									label="batch"
+									onChange={onChangeBatch}
+								>
+									<MenuItem value="UG1">UG1</MenuItem>
+									<MenuItem value="UG2">UG2</MenuItem>
+									<MenuItem value="UG3">UG3</MenuItem>
+									<MenuItem value="UG4">UG4</MenuItem>
+									<MenuItem value="UG5">UG5</MenuItem>
+								</Select>
+							</FormControl>
+						</Grid>
 
-					<Grid item xs={12}>
-						<Button variant="contained" onClick={onSubmit}>
-							Submit
-						</Button>
+						<Grid item xs={12}>
+							<Button variant="contained" onClick={onSubmit}>
+								Submit
+							</Button>
+						</Grid>
 					</Grid>
-				</Grid>
-			}
-		</LocalizationProvider>
+				}
+				{ls.get("type") === "Vendor" &&
+					<Grid container align={"center"} spacing={2}>
+						<Grid item xs={12}>
+							<TextField
+								label="Shop Name"
+								variant="outlined"
+								defaultValue={ls.get("shopname")}
+								onChange={onChangeShopName}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								label="Opening Time"
+								variant="outlined"
+								defaultValue={opening}
+								onChange={onChangeShopName}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								label="Closing Time"
+								variant="outlined"
+								defaultValue={closing}
+								onChange={onChangeShopName}
+							/>
+						</Grid>
+
+						<Grid item xs={12}>
+							<Button variant="contained" onClick={onSubmit}>
+								Submit
+							</Button>
+						</Grid>
+					</Grid>
+				}
+			</LocalizationProvider>
 		</>
 	);
 };
