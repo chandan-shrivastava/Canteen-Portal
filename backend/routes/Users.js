@@ -84,10 +84,9 @@ router.post("/profile/edit", (req,res) => {
     const shopname = req.body.shopname;
     const openingtime = req.body.openingtime;
     const closingtime = req.body.closingtime;
-    const wallet = req.body.wallet;
     const date = req.body.date;
     User.findOneAndUpdate({ email:oldemail },
-        { name: name, email: email }, null, function (err, docs) {
+        { name: name, email: email, contact:contact,Type:Type,age:age,passwd:passwd,batch:batch,shopname:shopname,openingtime:openingtime,closingtime:closingtime,date:date }, null, function (err, docs) {
             if (err) {
                 res.send(err);
             }

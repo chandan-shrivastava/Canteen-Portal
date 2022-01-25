@@ -127,6 +127,7 @@ const FoodItem = (props) => {
             .catch((error) => {
                console.log(error);
             });
+            navigate("/vendor/foodmenu");
 
         resetInputs();
     };

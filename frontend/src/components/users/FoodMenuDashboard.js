@@ -14,6 +14,7 @@ import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import axios from "axios";
+import ls from "local-storage";
 
 const FoodMenu = (props) => {
 	const [users, setUsers] = useState([]);
@@ -36,10 +37,19 @@ const FoodMenu = (props) => {
 		event.preventDefault();
 		navigate('/vendor/addfood');
 	};
-	// const onEdit = (event) => {
-	// 	event.preventDefault();
-	// 	navigate('/vendor/foodmenu');
-	// };
+	const onEdit = ({ name, price, shopname, vegornveg, addon1, addon2, addon3, addon4, tags }) => {
+		ls.set("editname", name);
+		ls.set("editoldname", name);
+		ls.set("editprice", price);
+		ls.set("editshopname", shopname);
+		ls.set("editvegornveg", vegornveg);
+		ls.set("editaddon1", addon1);
+		ls.set("editaddon2", addon2);
+		ls.set("editaddon3", addon3);
+		ls.set("editaddon4", addon4);
+		ls.set("edittags", tags);
+		navigate('/vendor/editfood');
+	};
 	/**
 	 *
 	 * @param id - The id of the product
@@ -55,16 +65,16 @@ const FoodMenu = (props) => {
 		axios
 			.post("http://localhost:4000/vendor/fooditem/delete", newUser)
 			.then((response) => {
-				alert("Deleted" + " " + response.data.name + " Successfully");
+				window.location.reload();
+				alert("Deleted" + " Successfully");
 				console.log(response.data);
-				success = true;
 			})
 			.catch(function (res) {
 				alert(res.response.data[Object.keys(res.response.data)[0]]);
 			});
 		if (success) {
-			window.location.reload();
 		}
+		console.log(success);
 	};
 
 	return (
@@ -115,7 +125,7 @@ const FoodMenu = (props) => {
 									<TableCell>Addon 3</TableCell>
 									<TableCell>Addon 4</TableCell>
 									<TableCell>Tags</TableCell>
-									{/* <TableCell>Edit</TableCell> */}
+									<TableCell>Edit</TableCell>
 									<TableCell>Delete</TableCell>
 								</TableRow>
 							</TableHead>
@@ -133,12 +143,11 @@ const FoodMenu = (props) => {
 										<TableCell>{user.addon3}</TableCell>
 										<TableCell>{user.addon4}</TableCell>
 										<TableCell>{user.tags}</TableCell>
-										{/* <TableCell>
-											
-											<Button variant="contained" onClick={onEdit}>
+										<TableCell>
+											<Button variant="contained" onClick={() => onEdit({ name: user.name, price: user.price, shopname: user.shopname, vegornveg: user.vegornveg, addon1: user.addon1, addon2: user.addon2, addon3: user.addon3, addon4: user.addon4, tags: user.tags })}>
 												Edit
 											</Button>
-										</TableCell> */}
+										</TableCell>
 										<TableCell>
 											<Button variant="contained" onClick={() => onDelete({ id: user._id })}>
 												Delete

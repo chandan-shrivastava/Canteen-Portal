@@ -42,7 +42,7 @@ const FoodItems = (props) => {
 		ls.set("itemaddon2", addon2);
 		ls.set("itemaddon3", addon3);
 		ls.set("itemaddon4", addon4);
-		navigate('/placeorder');
+		navigate('/buyer/placeorder');
 	};
 
 

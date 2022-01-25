@@ -15,6 +15,8 @@ import FoodItems from "./components/users/FoodItems";
 import PlaceOrder from "./components/users/PlaceOrder";
 import BuyerOrders from "./components/users/BuyerOrders";
 import VendorOrders from "./components/users/VendorOrders";
+import EditFoodItem from "./components/users/EditFoodItem";
+import Rating from "./components/users/Rating";
 
 const Layout = () => {
   return (
@@ -43,6 +45,8 @@ function App() {
           <Route path="buyer/placeorder" element={<PlaceOrder />} />
           <Route path="buyer/orders" element={<BuyerOrders />} />
           <Route path="vendor/orders" element={<VendorOrders />} />
+          <Route path="vendor/editfood" element={<EditFoodItem />} />
+          <Route path="buyer/rating" element={<Rating />} />
         </Route>
       </Routes>
     </BrowserRouter>

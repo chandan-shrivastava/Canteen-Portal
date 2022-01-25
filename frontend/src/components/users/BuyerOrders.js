@@ -14,6 +14,7 @@ import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import axios from "axios";
+import ls from "local-storage";
 
 const BuyerOrders = (props) => {
 	const [users, setUsers] = useState([]);
@@ -44,27 +45,25 @@ const BuyerOrders = (props) => {
 	 *
 	 * @param id - The id of the product
 	 */
-	const onDelete = ({ id }) => {
 
+	const onChange = ({ id, status }) => {
+		status = "COMPLETED";
 		const newUser = {
-			_id: id,
+			id: id,
+			status: status,
 		};
-
 		console.log(newUser);
-		const success = false;
 		axios
-			.post("http://localhost:4000/vendor/fooditem/delete", newUser)
+			.post("http://localhost:4000/orders/changestatus", newUser)
 			.then((response) => {
-				alert("Deleted" + " " + response.data.name + " Successfully");
+				window.location.reload();
+				ls.set('ratingid', id);
 				console.log(response.data);
-				success = true;
+				// navigate('/buyer/rating');
 			})
 			.catch(function (res) {
 				alert(res.response.data[Object.keys(res.response.data)[0]]);
 			});
-		if (success) {
-			window.location.reload();
-		}
 	};
 
 	return (
@@ -102,7 +101,6 @@ const BuyerOrders = (props) => {
 						<Table size="small">
 							<TableHead>
 								<TableRow>
-									<TableCell>Sr. No.</TableCell>
 									<TableCell>Time</TableCell>
 									<TableCell>Shop Name</TableCell>
 									<TableCell>Item</TableCell>
@@ -115,17 +113,25 @@ const BuyerOrders = (props) => {
 							</TableHead>
 							<TableBody>
 								{users.map((user, ind) => (
-									<TableRow key={ind}>
-										<TableCell>{ind + 1}</TableCell>
-										<TableCell>{user.date}</TableCell>
-										<TableCell>{user.vendorname}</TableCell>
-										<TableCell>{user.item}</TableCell>
-										<TableCell>{user.quantity}</TableCell>
-										<TableCell>{user.vegornveg}</TableCell>
-										<TableCell>{user.addon}</TableCell>
-										<TableCell>{user.cost}</TableCell>
-										<TableCell>{user.status}</TableCell>
-									</TableRow>
+									<>
+										{ls.get("name") === user.buyername &&
+											<TableRow key={ind}>
+												<TableCell>{user.date}</TableCell>
+												<TableCell>{user.vendorname}</TableCell>
+												<TableCell>{user.item}</TableCell>
+												<TableCell>{user.quantity}</TableCell>
+												<TableCell>{user.vegornveg}</TableCell>
+												<TableCell>{user.addon}</TableCell>
+												<TableCell>{user.cost}</TableCell>
+												<TableCell>{user.status}</TableCell>
+												{user.status === "READY FOR PICKUP" &&
+													<Button variant="contained" onClick={() => onChange({ id: user._id, status: user.status })}>
+														Picked Up
+													</Button>
+												}
+											</TableRow>
+										}
+									</>
 								))}
 							</TableBody>
 						</Table>

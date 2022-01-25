@@ -14,6 +14,10 @@ import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import axios from "axios";
+import emailjs from '@emailjs/browser';
+import ls from "local-storage";
+import { init } from '@emailjs/browser';
+init("user_OxjVoxHLpufOAk9iEJp3J");
 
 const BuyerOrders = (props) => {
     const [users, setUsers] = useState([]);
@@ -32,39 +36,72 @@ const BuyerOrders = (props) => {
 
 
     const navigate = useNavigate();
-    const onSubmit = (event) => {
-        event.preventDefault();
-        navigate('/vendor/addfood');
-    };
-    // const onEdit = (event) => {
-    // 	event.preventDefault();
-    // 	navigate('/vendor/foodmenu');
-    // };
-    /**
-     *
-     * @param id - The id of the product
-     */
-    const onChange = ({ id }) => {
 
+    const onChange = ({ id, status }) => {
+        if (status === "ACCEPTED") {
+            status = "COOKING";
+        }
+        else if (status === "COOKING") {
+            status = "READY FOR PICKUP";
+        }
         const newUser = {
-            _id: id,
+            id: id,
+            status: status,
         };
-
         console.log(newUser);
-        const success = false;
         axios
-            .post("http://localhost:4000/vendor/fooditem/delete", newUser)
+            .post("http://localhost:4000/orders/changestatus", newUser)
             .then((response) => {
-                alert("Deleted" + " " + response.data.name + " Successfully");
+                window.location.reload();
                 console.log(response.data);
-                success = true;
             })
             .catch(function (res) {
                 alert(res.response.data[Object.keys(res.response.data)[0]]);
             });
-        if (success) {
-            window.location.reload();
-        }
+    };
+    const onAccept = ({ id }) => {
+        const status = "ACCEPTED";
+        const newUser = {
+            id: id,
+            status: status,
+        };
+        console.log(newUser);
+        axios
+            .post("http://localhost:4000/orders/changestatus", newUser)
+            .then((response) => {
+                const vendorname = response.data.vendorname;
+                const buyername = response.data.buyername;
+                emailjs.send("service_orkmxtv", "template_bern2yr", {
+                    from_name: vendorname,
+                    to_name: buyername,
+                    message: "Accepted",
+                })
+                    .then(() => {
+                        window.location.reload();
+                    });
+            })
+    };
+    const onReject = ({ id }) => {
+        const status = "REJECTED";
+        const newUser = {
+            id: id,
+            status: status,
+        };
+        console.log(newUser);
+        axios
+            .post("http://localhost:4000/orders/changestatus", newUser)
+            .then((response) => {
+                const vendorname = response.data.vendorname;
+                const buyername = response.data.buyername;
+                emailjs.send("service_orkmxtv", "template_bern2yr", {
+                    from_name: vendorname,
+                    to_name: buyername,
+                    message: "Rejected",
+                })
+                    .then(() => {
+                        window.location.reload();
+                    });
+            })
     };
 
     return (
@@ -102,7 +139,6 @@ const BuyerOrders = (props) => {
                         <Table size="small">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Sr. No.</TableCell>
                                     <TableCell>Time</TableCell>
                                     <TableCell>Shop Name</TableCell>
                                     <TableCell>Item</TableCell>
@@ -111,27 +147,46 @@ const BuyerOrders = (props) => {
                                     <TableCell>Addon</TableCell>
                                     <TableCell>Cost</TableCell>
                                     <TableCell>Status</TableCell>
-                                    <TableCell>Change Status</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {users.map((user, ind) => (
-                                    <TableRow key={ind}>
-                                        <TableCell>{ind + 1}</TableCell>
-                                        <TableCell>{user.date}</TableCell>
-                                        <TableCell>{user.vendorname}</TableCell>
-                                        <TableCell>{user.item}</TableCell>
-                                        <TableCell>{user.quantity}</TableCell>
-                                        <TableCell>{user.vegornveg}</TableCell>
-                                        <TableCell>{user.addon}</TableCell>
-                                        <TableCell>{user.cost}</TableCell>
-                                        <TableCell>{user.status}</TableCell>
-                                        <TableCell>
-                                            <Button variant="contained" onClick={() => onChange({ id: user._id })}>
-                                                Next Stage
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
+                                    <>
+                                        {/* {ls.get("shopname") === user.vendorname && */}
+                                        <TableRow key={ind}>
+                                            <TableCell>{user.date}</TableCell>
+                                            <TableCell>{user.vendorname}</TableCell>
+                                            <TableCell>{user.item}</TableCell>
+                                            <TableCell>{user.quantity}</TableCell>
+                                            <TableCell>{user.vegornveg}</TableCell>
+                                            <TableCell>{user.addon}</TableCell>
+                                            <TableCell>{user.cost}</TableCell>
+                                            <TableCell>{user.status}</TableCell>
+                                            {user.status !== "PLACED" && user.status !== "READY FOR PICKUP" && user.status !== "COMPLETED" && user.status !== "REJECTED" &&
+                                                <TableCell>
+                                                    <Button variant="contained" onClick={() => onChange({ id: user._id, status: user.status })}>
+                                                        Next Stage
+                                                    </Button>
+                                                </TableCell>
+                                            }
+                                            {user.status === "PLACED" &&
+                                                <>
+                                                    <TableCell>
+
+                                                        <Button variant="contained" onClick={() => onAccept({ id: user._id })}>
+                                                            Accept
+                                                        </Button>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Button variant="contained" onClick={() => onReject({ id: user._id })}>
+                                                            Reject
+                                                        </Button>
+                                                    </TableCell>
+                                                </>
+                                            }
+                                        </TableRow>
+                                        {/* } */}
+                                    </>
                                 ))}
                             </TableBody>
                         </Table>

@@ -89,17 +89,8 @@ const ProfileEdit = (props) => {
 			.then((response) => {
 				alert("Edited" + " " + response.data.name + " Successfully");
 				console.log(response.data);
-				ls.set("name", response.data.name);
-				ls.set("email", response.data.email);
-				ls.set("contact", response.data.contact);
-				ls.set("type", response.data.Type);
-				ls.set("age", response.data.age);
-				ls.set("batch", response.data.batch);
-				ls.set("passwd", response.data.passwd);
-				ls.set("shopname", response.data.shopname);
-				ls.set("openingtime", response.data.openingtime);
-				ls.set("closingtime", response.data.closingtime);
-				navigate('/profile');
+				alert("Please login again");
+				navigate('/login');
 			});
 	};
 

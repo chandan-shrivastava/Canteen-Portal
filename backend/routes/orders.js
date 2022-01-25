@@ -40,4 +40,25 @@ router.post("/placeorder", (req, res) => {
 });
 
 
+
+
+router.post("/changestatus", (req, res) => {
+
+    const id = req.body.id;
+    const status = req.body.status;
+    orders.findOneAndUpdate({ _id: id },
+        { status: status }, null, function (err, docs) {
+            if (err) {
+                console.log(err);
+                res.send(err);
+            }
+            else {
+                console.log(docs);
+                res.send(docs);
+            }
+        });
+});
+
+
+
 module.exports = router;

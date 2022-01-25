@@ -73,7 +73,7 @@ const FoodItems = (props) => {
               alert("Order Placed Successfully");
               console.log(response.data);
             });
-        // navigate('/vendor/addfood');
+        navigate('/buyer/orders');
     };
 
     return (
