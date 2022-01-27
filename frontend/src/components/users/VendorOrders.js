@@ -22,12 +22,13 @@ init("user_OxjVoxHLpufOAk9iEJp3J");
 const BuyerOrders = (props) => {
     const [users, setUsers] = useState([]);
 
-
     useEffect(() => {
         axios
             .get("http://localhost:4000/orders")
             .then((response) => {
                 setUsers(response.data);
+                console.log(response.data);
+                console.log(users);
             })
             .catch((error) => {
                 console.log(error);
@@ -59,35 +60,52 @@ const BuyerOrders = (props) => {
                 alert(res.response.data[Object.keys(res.response.data)[0]]);
             });
     };
-    const onAccept = ({ id }) => {
-        const status = "ACCEPTED";
-        const newUser = {
-            id: id,
-            status: status,
-        };
-        console.log(newUser);
-        axios
-            .post("http://localhost:4000/orders/changestatus", newUser)
-            .then((response) => {
-                const vendorname = response.data.vendorname;
-                const buyername = response.data.buyername;
-                emailjs.send("service_orkmxtv", "template_bern2yr", {
-                    from_name: vendorname,
-                    to_name: buyername,
-                    message: "Accepted",
+    const onAccept = ({ id, cost }) => {
+        var stat = 0;
+        users.forEach((users21) => {
+            if (users21.status === "ACCEPTED" || users21.status === "COOKING") { stat++; }
+        })
+        if (stat >= 10) {
+            alert("You cannot accept more than 10 orders at a time");
+        }
+        else {
+            const status = "ACCEPTED";
+            const newUser = {
+                id: id,
+                status: status,
+            };
+            console.log(newUser);
+            axios
+                .post("http://localhost:4000/orders/changestatus", newUser)
+                .then((response) => {
+                    const vendorname = response.data.vendorname;
+                    const buyername = response.data.buyername;
+                    emailjs.send("service_orkmxtv", "template_bern2yr", {
+                        from_name: vendorname,
+                        to_name: buyername,
+                        message: "Accepted",
+                    })
                 })
-                    .then(() => {
-                        window.location.reload();
-                    });
-            })
+            const newUser1 = {
+                email: ls.get("email"),
+                cost: cost,
+            };
+            console.log(newUser1);
+            axios
+                .post("http://localhost:4000/user/ordermoneysub", newUser1)
+                .then((response) => {
+                    console.log(response.data);
+                    ls.set("wallet", response.data.wallet);
+                    window.location.reload();
+                });
+        }
     };
-    const onReject = ({ id }) => {
+    const onReject = ({ id, cost, email }) => {
         const status = "REJECTED";
         const newUser = {
             id: id,
             status: status,
         };
-        console.log(newUser);
         axios
             .post("http://localhost:4000/orders/changestatus", newUser)
             .then((response) => {
@@ -98,10 +116,26 @@ const BuyerOrders = (props) => {
                     to_name: buyername,
                     message: "Rejected",
                 })
-                    .then(() => {
-                        window.location.reload();
-                    });
             })
+        const newUser1 = {
+            email: email,
+            cost: cost,
+        };
+        console.log(newUser1);
+        axios
+            .post("http://localhost:4000/user/ordermoneysub", newUser1)
+            .then((response) => {
+                console.log(response.data);
+                window.location.reload();
+            });
+    };
+
+    const onLogout = (event) => {
+        event.preventDefault();
+        ls.clear();
+
+        ls.set("auth", "false");
+        navigate('/');
     };
 
     return (
@@ -113,7 +147,7 @@ const BuyerOrders = (props) => {
                             variant="h6"
                             component="div"
                             sx={{ cursor: "pointer" }}
-                            onClick={() => navigate("/")}
+                            onClick={() => navigate("/profile")}
                         >
                             Canteen Portal
                         </Typography>
@@ -124,8 +158,14 @@ const BuyerOrders = (props) => {
                         <Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
                             Food Menu
                         </Button>
+                        <Button color="inherit" onClick={() => navigate("/vendor/stats")}>
+                            Statistics
+                        </Button>
                         <Button variant="contained" color="info" onClick={() => navigate("/vendor/orders")}>
                             Orders
+                        </Button>
+                        <Button color="inherit" onClick={onLogout}>
+                            Logout
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -164,7 +204,7 @@ const BuyerOrders = (props) => {
                                             <TableCell>{user.status}</TableCell>
                                             {user.status !== "PLACED" && user.status !== "READY FOR PICKUP" && user.status !== "COMPLETED" && user.status !== "REJECTED" &&
                                                 <TableCell>
-                                                    <Button variant="contained" onClick={() => onChange({ id: user._id, status: user.status })}>
+                                                    <Button variant="contained" onClick={() => onChange({ id: user._id, status: user.status, email: user.buyeremail })}>
                                                         Next Stage
                                                     </Button>
                                                 </TableCell>
@@ -173,12 +213,12 @@ const BuyerOrders = (props) => {
                                                 <>
                                                     <TableCell>
 
-                                                        <Button variant="contained" onClick={() => onAccept({ id: user._id })}>
+                                                        <Button variant="contained" onClick={() => onAccept({ id: user._id, cost: user.cost })}>
                                                             Accept
                                                         </Button>
                                                     </TableCell>
                                                     <TableCell>
-                                                        <Button variant="contained" onClick={() => onReject({ id: user._id })}>
+                                                        <Button variant="contained" onClick={() => onReject({ id: user._id, cost: user.cost, email: user.buyeremail })}>
                                                             Reject
                                                         </Button>
                                                     </TableCell>

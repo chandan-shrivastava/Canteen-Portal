@@ -17,6 +17,7 @@ import BuyerOrders from "./components/users/BuyerOrders";
 import VendorOrders from "./components/users/VendorOrders";
 import EditFoodItem from "./components/users/EditFoodItem";
 import Rating from "./components/users/Rating";
+import Stats from "./components/users/stats";
 
 const Layout = () => {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="vendor/orders" element={<VendorOrders />} />
           <Route path="vendor/editfood" element={<EditFoodItem />} />
           <Route path="buyer/rating" element={<Rating />} />
+          <Route path="vendor/stats" element={<Stats />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,6 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import { useState, useEffect } from "react";
+import React from 'react'
 import axios from "axios";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -147,7 +146,6 @@ const UsersList = (props) => {
                   </TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell>Email</TableCell>
-                  <TableCell>Type</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -157,7 +155,6 @@ const UsersList = (props) => {
                     <TableCell>{user.date}</TableCell>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.Type}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

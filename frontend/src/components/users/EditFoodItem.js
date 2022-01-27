@@ -23,6 +23,8 @@ var data = 0;
 const EditFoodItem = (props) => {
 
     const navigate = useNavigate();
+
+
     const [name, setName] = useState(ls.get("editname"));
     const [price, setPrice] = useState(ls.get("editprice"));
     const [shopname, setShopName] = useState(ls.get("editshopname"));
@@ -119,6 +121,13 @@ const EditFoodItem = (props) => {
 
     };
 
+    const onLogout = (event) => {
+        event.preventDefault();
+        ls.clear();
+
+        ls.set("auth", "false");
+        navigate('/');
+    };
 
     return (
         <>
@@ -129,7 +138,7 @@ const EditFoodItem = (props) => {
                             variant="h6"
                             component="div"
                             sx={{ cursor: "pointer" }}
-                            onClick={() => navigate("/")}
+                            onClick={() => navigate("/profile")}
                         >
                             Canteen Portal
                         </Typography>
@@ -143,8 +152,14 @@ const EditFoodItem = (props) => {
                         <Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
                             Food Menu
                         </Button>
+                        <Button color="inherit" onClick={() => navigate("/vendor/stats")}>
+                            Statistics
+                        </Button>
                         <Button color="inherit" variant="contained" color="info" onClick={() => navigate("/vendor/addfood")}>
                             Add Food Item
+                        </Button>
+                        <Button color="inherit" onClick={onLogout}>
+                            Logout
                         </Button>
                     </Toolbar>
                 </AppBar>

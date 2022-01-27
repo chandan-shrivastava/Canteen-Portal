@@ -33,14 +33,6 @@ const BuyerOrders = (props) => {
 
 
 	const navigate = useNavigate();
-	const onSubmit = (event) => {
-		event.preventDefault();
-		navigate('/vendor/addfood');
-	};
-	// const onEdit = (event) => {
-	// 	event.preventDefault();
-	// 	navigate('/vendor/foodmenu');
-	// };
 	/**
 	 *
 	 * @param id - The id of the product
@@ -66,6 +58,14 @@ const BuyerOrders = (props) => {
 			});
 	};
 
+	const onLogout = (event) => {
+        event.preventDefault();
+		ls.clear();
+
+        ls.set("auth", "false");
+        navigate('/');
+    };
+
 	return (
 		<>
 			<Box sx={{ flexGrow: 1 }}>
@@ -75,7 +75,7 @@ const BuyerOrders = (props) => {
 							variant="h6"
 							component="div"
 							sx={{ cursor: "pointer" }}
-							onClick={() => navigate("/")}
+							onClick={() => navigate("/profile")}
 						>
 							Canteen Portal
 						</Typography>
@@ -88,6 +88,9 @@ const BuyerOrders = (props) => {
 						</Button>
 						<Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
 							Food Menu
+						</Button>
+						<Button color="inherit" onClick={onLogout}>
+							Logout
 						</Button>
 					</Toolbar>
 				</AppBar>

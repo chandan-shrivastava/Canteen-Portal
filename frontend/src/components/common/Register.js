@@ -88,63 +88,84 @@ const Register = (props) => {
 		setpasswd("");
 		setOpeningTimepick("");
 		setClosingTimepick("");
+		setValues("");
 		setDate(null);
 	};
 
 	const onSubmitVendor = (event) => {
 		event.preventDefault();
+		if (!name || !email || !Type || !contact || !passwd || !ShopName || !openingtimepick || !closingtimepick) {
+			alert("Fields cannot be empty");
+		}
+		else {
+			const newUser = {
+				name: name,
+				email: email,
+				contact: contact,
+				Type: Type,
+				shopname: ShopName,
+				openingtime: openingtimepick,
+				closingtime: closingtimepick,
+				passwd: passwd,
+				age: age,
+				batch: batch,
+				wallet: "0",
+				date: Date.now(),
+			};
+			console.log(newUser);
+			axios
+				.post("http://localhost:4000/user/register", newUser)
+				.then((response) => {
+					if (response.data !== "Email already exists") {
+						alert("Registered" + " " + response.data.name + " Successfully");
+					}
+					else
+						alert(response.data);
+					console.log(response.data);
+				});
 
-		const newUser = {
-			name: name,
-			email: email,
-			contact: contact,
-			Type: Type,
-			shopname: ShopName,
-			openingtime: openingtimepick,
-			closingtime: closingtimepick,
-			passwd: passwd,
-			age: age,
-			batch: batch,
-			wallet: "0",
-			date: Date.now(),
-		};
-		console.log(newUser);
-		axios
-			.post("http://localhost:4000/user/register", newUser)
-			.then((response) => {
-				alert("Registered" + " " + response.data.name + "Successfully");
-				console.log(response.data);
-			});
-
-		resetInputs();
+			resetInputs();
+		}
 	};
 
 	const onSubmitBuyer = (event) => {
 		event.preventDefault();
+		if (!name || !email || !Type || !contact || !passwd || !age || !batch) {
+			alert("Fields cannot be empty");
+		}
+		else if (!validateEmail)
+		{
+			alert("Invalid Email");
+		}
+		else {
+			const newUser = {
+				name: name,
+				email: email,
+				contact: contact,
+				Type: Type,
+				age: age,
+				batch: batch,
+				passwd: passwd,
+				shopname: ShopName,
+				openingtime: openingtimepick,
+				closingtime: closingtimepick,
+				wallet: "0",
+				date: Date.now(),
+			};
+			console.log(newUser);
+			axios
+				.post("http://localhost:4000/user/register", newUser)
+				.then((response) => {
+					if (response.data !== "Email already exists") {
+						alert("Registered" + " " + response.data.name + " Successfully");
+					}
+					else
+						alert(response.data);
+					console.log(response.data);
+				});
 
-		const newUser = {
-			name: name,
-			email: email,
-			contact: contact,
-			Type: Type,
-			age: age,
-			batch: batch,
-			passwd: passwd,
-			shopname: ShopName,
-			openingtime: openingtimepick,
-			closingtime: closingtimepick,
-			wallet: "0",
-			date: Date.now(),
-		};
-		console.log(newUser);
-		axios
-			.post("http://localhost:4000/user/register", newUser)
-			.then((response) => {
-				alert("Registered" + " " + response.data.name + " Successfully");
-				console.log(response.data);
-			});
-
-		resetInputs();
+			resetInputs();
+		}
 	};
 
 	const [values, setValues] = React.useState({
@@ -157,6 +178,14 @@ const Register = (props) => {
 			showPassword: !values.showPassword,
 		});
 	};
+
+	const validateEmail = (email) => {
+		return String(email)
+		  .toLowerCase()
+		  .match(
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		  );
+	  };
 
 	return (
 		<>
@@ -200,6 +229,7 @@ const Register = (props) => {
 						<TextField required
 							label="Contact No."
 							variant="outlined"
+							type="number"
 							value={contact}
 							onChange={onChangeContact}
 						/>

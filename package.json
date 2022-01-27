@@ -1,6 +1,6 @@
 {
   "dependencies": {
+    "material-ui-search-bar": "^1.0.0",
     "mongoose-auto-increment": "^5.0.1"
   }
-  
 }

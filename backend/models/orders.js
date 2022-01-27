@@ -11,6 +11,10 @@ const ordersschema = new Schema({
         type: String,
         required: false
     },
+    buyeremail:{
+        type: String,
+        required: false
+    },
     item: {
         type: String,
         required: false

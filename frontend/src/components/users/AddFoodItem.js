@@ -12,6 +12,7 @@ import Select from '@mui/material/Select';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { useNavigate } from "react-router-dom";
+import { ls } from "local-storage";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
@@ -22,6 +23,7 @@ import Typography from '@mui/material/Typography';
 
 const FoodItem = (props) => {
     const navigate = useNavigate();
+
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [shopname, setShopName] = useState("");
@@ -105,31 +107,44 @@ const FoodItem = (props) => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        const newUser = {
-            name: name,
-            price: price,
-            shopname: shopname,
-            rating: 0,
-            vegornveg: vegornveg,
-            addon1: addon1,
-            addon2: addon2,
-            addon3: addon3,
-            addon4: addon4,
-            tags: personName.join(','),
-        };
-        console.log(newUser);
-        axios
-            .post("http://localhost:4000/vendor/addfood", newUser)
-            .then((response) => {
-                alert("Added" + " " + response.data.name + " Successfully");
-                console.log(response.data);
-            })
-            .catch((error) => {
-               console.log(error);
-            });
+        if (!name || !price || !shopname || !vegornveg || !personName) {
+            alert("Fields cannot be empty");
+        }
+        else {
+            const newUser = {
+                name: name,
+                price: price,
+                shopname: shopname,
+                rating: 0,
+                vegornveg: vegornveg,
+                addon1: addon1,
+                addon2: addon2,
+                addon3: addon3,
+                addon4: addon4,
+                tags: personName.join(','),
+            };
+            console.log(newUser);
+            axios
+                .post("http://localhost:4000/vendor/addfood", newUser)
+                .then((response) => {
+                    alert("Added" + " " + response.data.name + " Successfully");
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             navigate("/vendor/foodmenu");
 
-        resetInputs();
+            resetInputs();
+        }
+    };
+
+    const onLogout = (event) => {
+        event.preventDefault();
+        ls.clear();
+
+        ls.set("auth", "false");
+        navigate('/');
     };
 
     return (
@@ -141,7 +156,7 @@ const FoodItem = (props) => {
                             variant="h6"
                             component="div"
                             sx={{ cursor: "pointer" }}
-                            onClick={() => navigate("/")}
+                            onClick={() => navigate("/profile")}
                         >
                             Canteen Portal
                         </Typography>
@@ -155,8 +170,14 @@ const FoodItem = (props) => {
                         <Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
                             Food Menu
                         </Button>
-                        <Button color="inherit" variant="contained" color="info" onClick={() => navigate("/vendor/addfood")}>
-                           Add Food Item
+                        <Button color="inherit" onClick={() => navigate("/vendor/stats")}>
+                            Statistics
+                        </Button>
+                        <Button  variant="contained" color="info" onClick={() => navigate("/vendor/addfood")}>
+                            Add Food Item
+                        </Button>
+                        <Button color="inherit" onClick={onLogout}>
+                            Logout
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -205,7 +226,7 @@ const FoodItem = (props) => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField 
+                        <TextField
                             label="Addon 1"
                             variant="outlined"
                             value={addon1}
@@ -213,7 +234,7 @@ const FoodItem = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField 
+                        <TextField
                             label="Addon 2"
                             variant="outlined"
                             value={addon2}
@@ -221,7 +242,7 @@ const FoodItem = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField 
+                        <TextField
                             label="Addon 3"
                             variant="outlined"
                             value={addon3}

@@ -49,31 +49,60 @@ const FoodItems = (props) => {
 
     const navigate = useNavigate();
     const onSubmit = (event) => {
+        if (!quantity) {
+            alert("Quantity cannot be empty");
+        }
+        else {
+            if (ls.get("wallet") < finalprice) {
+                alert("Insufficient Balance");
+            }
+            else {
+                event.preventDefault();
+                var today = new Date();
+                var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var dateTime = date + ' ' + time;
+                const newUser = {
+                    item: ls.get("itemname"),
+                    buyername: ls.get("name"),
+                    buyeremail: ls.get("email"),
+                    cost: finalprice,
+                    vendorname: ls.get("itemshopname"),
+                    vegornveg: ls.get("itemvegornveg"),
+                    quantity: quantity,
+                    addon: addon,
+                    date: dateTime,
+                    status: "PLACED",
+                    rating: 0,
+                };
+                console.log(newUser);
+                axios
+                    .post("http://localhost:4000/orders/placeorder", newUser)
+                    .then((response) => {
+                        alert("Order Placed Successfully");
+                        console.log(response.data);
+                        const newUser1 = {
+                            buyeremail: ls.get("email"),
+                            cost: finalprice,
+                        };
+                        axios
+                            .post("http://localhost:4000/user/ordermoneyadd", newUser1)
+                            .then((response) => {
+                                ls.set("wallet", response.data.wallet);
+                                console.log(response.data);
+                            });
+                    });
+                navigate('/buyer/orders');
+            }
+        }
+    };
+
+    const onLogout = (event) => {
         event.preventDefault();
-        var today = new Date();
-        var date = today.getDate() + '-' +(today.getMonth()+1)+'-'+today.getFullYear();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date+' '+time;
-        const newUser = {
-            item: ls.get("itemname"),
-            buyername: ls.get("name"),
-            cost: finalprice,
-            vendorname: ls.get("itemshopname"),
-            vegornveg: ls.get("itemvegornveg"),
-            quantity: quantity,
-            addon: addon,
-            date: dateTime,
-            status: "PLACED",
-            rating: 0,
-        };
-        console.log(newUser);
-          axios
-            .post("http://localhost:4000/orders/placeorder", newUser)
-            .then((response) => {
-              alert("Order Placed Successfully");
-              console.log(response.data);
-            });
-        navigate('/buyer/orders');
+        ls.clear();
+
+        ls.set("auth", "false");
+        navigate('/');
     };
 
     return (
@@ -91,13 +120,16 @@ const FoodItems = (props) => {
                         </Typography>
                         <Box sx={{ flexGrow: 1 }} />
                         <Button color="inherit" onClick={() => navigate("/profile")}>
-							My Profile
-						</Button>
-						<Button color="inherit" onClick={() => navigate("/buyer/orders")}>
-							Orders
-						</Button>
-						<Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
-							Food Menu
+                            My Profile
+                        </Button>
+                        <Button color="inherit" onClick={() => navigate("/buyer/orders")}>
+                            Orders
+                        </Button>
+                        <Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
+                            Food Menu
+                        </Button>
+                        <Button color="inherit" onClick={onLogout}>
+							Logout
 						</Button>
                     </Toolbar>
                 </AppBar>

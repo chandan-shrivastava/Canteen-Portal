@@ -25,6 +25,8 @@ const FoodMenu = (props) => {
 			.get("http://localhost:4000/vendor")
 			.then((response) => {
 				setUsers(response.data);
+				console.log("response", response.data);
+				console.log("users", users);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -33,6 +35,8 @@ const FoodMenu = (props) => {
 
 
 	const navigate = useNavigate();
+
+
 	const onSubmit = (event) => {
 		event.preventDefault();
 		navigate('/vendor/addfood');
@@ -77,6 +81,14 @@ const FoodMenu = (props) => {
 		console.log(success);
 	};
 
+	const onLogout = (event) => {
+		event.preventDefault();
+		ls.clear();
+
+		ls.set("auth", "false");
+		navigate('/');
+	};
+
 	return (
 		<>
 			<Box sx={{ flexGrow: 1 }}>
@@ -86,7 +98,7 @@ const FoodMenu = (props) => {
 							variant="h6"
 							component="div"
 							sx={{ cursor: "pointer" }}
-							onClick={() => navigate("/")}
+							onClick={() => navigate("/profile")}
 						>
 							Canteen Portal
 						</Typography>
@@ -99,6 +111,12 @@ const FoodMenu = (props) => {
 						</Button>
 						<Button variant="contained" color="info" onClick={() => navigate("/vendor/foodmenu")}>
 							Food Menu
+						</Button>
+						<Button color="inherit" onClick={() => navigate("/vendor/stats")}>
+                            Statistics
+                        </Button>
+						<Button color="inherit" onClick={onLogout}>
+							Logout
 						</Button>
 					</Toolbar>
 				</AppBar>
@@ -115,7 +133,9 @@ const FoodMenu = (props) => {
 							<TableHead>
 								<TableRow>
 									<TableCell> Sr No.</TableCell>
-									<TableCell>Name</TableCell>
+									<TableCell>Item Name</TableCell>
+									<TableCell>Buyer Name</TableCell>
+									<TableCell>Buyer Email</TableCell>
 									<TableCell>Price</TableCell>
 									<TableCell>Shop Name</TableCell>
 									<TableCell>Rating</TableCell>
@@ -131,29 +151,35 @@ const FoodMenu = (props) => {
 							</TableHead>
 							<TableBody>
 								{users.map((user, ind) => (
-									<TableRow key={ind}>
-										<TableCell>{ind + 1}</TableCell>
-										<TableCell>{user.name}</TableCell>
-										<TableCell>{user.price}</TableCell>
-										<TableCell>{user.shopname}</TableCell>
-										<TableCell>{user.rating}</TableCell>
-										<TableCell>{user.vegornveg}</TableCell>
-										<TableCell>{user.addon1}</TableCell>
-										<TableCell>{user.addon2}</TableCell>
-										<TableCell>{user.addon3}</TableCell>
-										<TableCell>{user.addon4}</TableCell>
-										<TableCell>{user.tags}</TableCell>
-										<TableCell>
-											<Button variant="contained" onClick={() => onEdit({ name: user.name, price: user.price, shopname: user.shopname, vegornveg: user.vegornveg, addon1: user.addon1, addon2: user.addon2, addon3: user.addon3, addon4: user.addon4, tags: user.tags })}>
-												Edit
-											</Button>
-										</TableCell>
-										<TableCell>
-											<Button variant="contained" onClick={() => onDelete({ id: user._id })}>
-												Delete
-											</Button>
-										</TableCell>
-									</TableRow>
+									// <>
+									// 	{ls.get("shopname") === user.shopname &&
+											<TableRow key={ind}>
+												<TableCell>{ind + 1}</TableCell>
+												<TableCell>{user.name}</TableCell>
+												<TableCell>{user.buyername}</TableCell>
+												<TableCell>{user.buyeremail}</TableCell>
+												<TableCell>{user.price}</TableCell>
+												<TableCell>{user.shopname}</TableCell>
+												<TableCell>{user.rating}</TableCell>
+												<TableCell>{user.vegornveg}</TableCell>
+												<TableCell>{user.addon1}</TableCell>
+												<TableCell>{user.addon2}</TableCell>
+												<TableCell>{user.addon3}</TableCell>
+												<TableCell>{user.addon4}</TableCell>
+												<TableCell>{user.tags}</TableCell>
+												<TableCell>
+													<Button variant="contained" onClick={() => onEdit({ name: user.name, price: user.price, shopname: user.shopname, vegornveg: user.vegornveg, addon1: user.addon1, addon2: user.addon2, addon3: user.addon3, addon4: user.addon4, tags: user.tags })}>
+														Edit
+													</Button>
+												</TableCell>
+												<TableCell>
+													<Button variant="contained" onClick={() => onDelete({ id: user._id })}>
+														Delete
+													</Button>
+												</TableCell>
+											</TableRow>
+										// }
+										// </>
 								))}
 							</TableBody>
 						</Table>

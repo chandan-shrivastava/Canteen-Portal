@@ -3,19 +3,53 @@ import ls from "local-storage";
 import TextField from '@mui/material/TextField';
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 
 const Profile = (props) => {
 
   const navigate = useNavigate();
+  const [wallet, setWallet] = useState("");
+
+  const onChangeWallet = (event) => {
+    setWallet(event.target.value);
+  };
+
+  const onAddMoney = (event) => {
+    event.preventDefault();
+
+    const newUser = {
+      email: ls.get("email"),
+      wallet: wallet,
+    };
+
+    console.log(newUser);
+    axios
+      .post("http://localhost:4000/user/addmoney", newUser)
+      .then((response) => {
+        alert("Added" + " " + wallet + " Successfully");
+        console.log(response.data.wallet);
+        ls.set("wallet", response.data.wallet);
+        window.location.reload();
+      });
+  };
 
   const onSubmit = (event) => {
     event.preventDefault();
     navigate('/profile/edit');
+  };
+
+  const onLogout = (event) => {
+    event.preventDefault();
+    ls.clear();
+
+    ls.set("auth", "false");
+    navigate('/');
   };
 
   if (ls.get("type") === "Buyer") {
@@ -28,7 +62,7 @@ const Profile = (props) => {
                 variant="h6"
                 component="div"
                 sx={{ cursor: "pointer" }}
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/profile")}
               >
                 Canteen Portal
               </Typography>
@@ -41,6 +75,9 @@ const Profile = (props) => {
               </Button>
               <Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
                 Food Menu
+              </Button>
+              <Button color="inherit" onClick={onLogout}>
+                Logout
               </Button>
             </Toolbar>
           </AppBar>
@@ -101,6 +138,11 @@ const Profile = (props) => {
             />
           </div>
           <div>
+            <Button variant="contained" onClick={onSubmit}>
+              Edit
+            </Button>
+          </div>
+          <div>
             <TextField
               label="Wallet"
               defaultValue={ls.get("wallet")}
@@ -110,8 +152,17 @@ const Profile = (props) => {
             />
           </div>
           <div>
-            <Button variant="contained" onClick={onSubmit}>
-              Edit
+            <TextField
+              label="Add money to Wallet"
+              variant="outlined"
+              type="number"
+              value={wallet}
+              onChange={onChangeWallet}
+            />
+          </div>
+          <div>
+            <Button variant="contained" onClick={onAddMoney}>
+              Add Money
             </Button>
           </div>
         </Grid>
@@ -145,7 +196,7 @@ const Profile = (props) => {
                 Canteen Portal
               </Typography>
               <Box sx={{ flexGrow: 1 }} />
-              <Button color="inherit" variant="contained" color="info" onClick={() => navigate("/profile")}>
+              <Button  variant="contained" color="info" onClick={() => navigate("/profile")}>
                 My Profile
               </Button>
               <Button color="inherit" onClick={() => navigate("/vendor/orders")}>
@@ -153,6 +204,12 @@ const Profile = (props) => {
               </Button>
               <Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
                 Food Menu
+              </Button>
+              <Button color="inherit" onClick={() => navigate("/vendor/stats")}>
+                Statistics
+              </Button>
+              <Button color="inherit" onClick={onLogout}>
+                Logout
               </Button>
             </Toolbar>
           </AppBar>
@@ -223,6 +280,11 @@ const Profile = (props) => {
             />
           </div>
           <div>
+            <Button variant="contained" onClick={onSubmit}>
+              Edit
+            </Button>
+          </div>
+          <div>
             <TextField
               label="Wallet"
               defaultValue={ls.get("wallet")}
@@ -230,11 +292,6 @@ const Profile = (props) => {
                 readOnly: true,
               }}
             />
-          </div>
-          <div>
-            <Button variant="contained" onClick={onSubmit}>
-              Edit
-            </Button>
           </div>
         </Grid>
       </>

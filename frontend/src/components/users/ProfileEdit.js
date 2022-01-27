@@ -63,7 +63,9 @@ const ProfileEdit = (props) => {
 	const onChangepasswd = (event) => {
 		setpasswd(event.target.value);
 	};
+	
 	const navigate = useNavigate();
+    
 
 	const onSubmit = (event) => {
 		event.preventDefault();
@@ -120,6 +122,14 @@ const ProfileEdit = (props) => {
 		}
 	}
 
+	const onLogout = (event) => {
+        event.preventDefault();
+		ls.clear();
+
+        ls.set("auth", "false");
+        navigate('/');
+    };
+
 	return (
 		<>
 			{ls.get("type") === "Vendor" &&
@@ -130,7 +140,7 @@ const ProfileEdit = (props) => {
 								variant="h6"
 								component="div"
 								sx={{ cursor: "pointer" }}
-								onClick={() => navigate("/")}
+								onClick={() => navigate("/profile")}
 							>
 								Canteen Portal
 							</Typography>
@@ -141,8 +151,14 @@ const ProfileEdit = (props) => {
 							<Button color="inherit" onClick={() => navigate("/vendor/orders")}>
 								Orders
 							</Button>
+							<Button color="inherit" onClick={() => navigate("/vendor/stats")}>
+                            Statistics
+                        </Button>
 							<Button color="inherit" onClick={() => navigate("/vendor/foodmenu")}>
 								Food Menu
+							</Button>
+							<Button variant="contained" color="info" onClick={onLogout}>
+								Logout
 							</Button>
 						</Toolbar>
 					</AppBar>
@@ -156,7 +172,7 @@ const ProfileEdit = (props) => {
 								variant="h6"
 								component="div"
 								sx={{ cursor: "pointer" }}
-								onClick={() => navigate("/")}
+								onClick={() => navigate("/profile")}
 							>
 								Canteen Portal
 							</Typography>
@@ -169,6 +185,9 @@ const ProfileEdit = (props) => {
 							</Button>
 							<Button color="inherit" onClick={() => navigate("/buyer/fooditems")}>
 								Food Menu
+							</Button>
+							<Button color="inherit" onClick={() => navigate("/")}>
+								Logout
 							</Button>
 						</Toolbar>
 					</AppBar>

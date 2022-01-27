@@ -20,6 +20,7 @@ router.post("/placeorder", (req, res) => {
     const newUser = new orders({
         item: req.body.item,
         buyername: req.body.buyername,
+        buyeremail: req.body.buyeremail,
         cost: req.body.cost,
         vendorname: req.body.vendorname,
         vegornveg: req.body.vegornveg,

@@ -21,6 +21,8 @@ router.get("/", function (req, res) {
 // POST request 
 // Add a user to db
 router.post("/register", (req, res) => {
+    const email = req.body.email;
+
     const newUser = new User({
         name: req.body.name,
         email: req.body.email,
@@ -36,13 +38,21 @@ router.post("/register", (req, res) => {
         date: req.body.date
     });
 
-    newUser.save()
-        .then(user => {
-            res.status(200).json(user);
-        })
-        .catch(err => {
-            res.status(400).send(err);
-        });
+    User.findOne({ email }).then(user => {
+        console.log(user);
+        if (user) {
+            res.status(200).send("Email already exists");
+        }
+        else {
+            newUser.save()
+                .then(user => {
+                    res.status(200).json(user);
+                })
+                .catch(err => {
+                    res.status(400).send(err);
+                });
+        }
+    });
 });
 
 // POST request 
@@ -71,7 +81,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.post("/profile/edit", (req,res) => {
+router.post("/profile/edit", (req, res) => {
 
     const name = req.body.name;
     const email = req.body.email;
@@ -85,8 +95,8 @@ router.post("/profile/edit", (req,res) => {
     const openingtime = req.body.openingtime;
     const closingtime = req.body.closingtime;
     const date = req.body.date;
-    User.findOneAndUpdate({ email:oldemail },
-        { name: name, email: email, contact:contact,Type:Type,age:age,passwd:passwd,batch:batch,shopname:shopname,openingtime:openingtime,closingtime:closingtime,date:date }, null, function (err, docs) {
+    User.findOneAndUpdate({ email: oldemail },
+        { name: name, email: email, contact: contact, Type: Type, age: age, passwd: passwd, batch: batch, shopname: shopname, openingtime: openingtime, closingtime: closingtime, date: date }, null, function (err, docs) {
             if (err) {
                 res.send(err);
             }
@@ -96,7 +106,74 @@ router.post("/profile/edit", (req,res) => {
         });
 });
 
+router.post("/addmoney", (req, res) => {
+    const email = req.body.email;
+    var wallet = req.body.wallet;
+    // Find user by email
+    User.findOne({ email }).then(user => {
+        wallet = parseInt(wallet) + parseInt(user.wallet);
+        User.findOneAndUpdate({ email: email },
+            { wallet: wallet }, null, function (err, docs) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    User.findOne({ email }).then(user => {
+                        res.send(user);
+                    });
+                }
+            });
 
+    });
+});
+
+router.post("/ordermoneyadd", (req, res) => {
+    const email = req.body.buyeremail;
+    var wallet = req.body.cost;
+    User.findOne({ email }).then(user => {
+        wallet = parseInt(user.wallet) - parseInt(wallet);
+        User.findOneAndUpdate({ email: email },
+            { wallet: wallet }, null, function (err, docs) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    User.findOne({ email }).then(user => {
+                        res.send(user);
+                    });
+                }
+            });
+    });
+});
+
+router.post("/ordermoneysub", (req, res) => {
+    const email = req.body.email;
+    var wallet = req.body.cost;
+    User.findOne({ email }).then(user => {
+        wallet = parseInt(user.wallet) + parseInt(wallet);
+        User.findOneAndUpdate({ email: email },
+            { wallet: wallet }, null, function (err, docs) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    User.findOne({ email }).then(user => {
+                        console.log(user);
+                        res.send(user);
+                    });
+                }
+            });
+    });
+});
+
+router.post("/gettime", (req, res) => {
+    const shopname = req.body.shopname;
+    console.log(shopname);
+    User.findOne({ shopname }).then(user => {
+        console.log(user);
+        res.send(user);
+    });
+});
 
 module.exports = router;
 
