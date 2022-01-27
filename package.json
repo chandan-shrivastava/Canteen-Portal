@@ -1,6 +1,13 @@
 {
+  "scripts": {
+    "heroku-postbuild": "npm install npm && run build",
+    "start": "node backend/server.js"
+  },
+  "engines": {
+    "node": ">= 6.9.4",
+    "npm": ">= 4.4.0"
+  },
   "dependencies": {
-    "material-ui-search-bar": "^1.0.0",
-    "mongoose-auto-increment": "^5.0.1"
+    "serve": "^13.0.2"
   }
 }
