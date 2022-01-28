@@ -151,10 +151,10 @@ const FoodItems = (props) => {
                                     .from(freq.entries(), ([k, v]) => [k, v]))
                                     .sort((a, b) => (b[1] - a[1]))
                                     .filter((val, i) => { if (i < 5) return val; })
-                                    .map((ele) => (
+                                    .map((rows) => (
                                         <TableRow>
-                                            <TableCell>{ele[0]}</TableCell>
-                                            <TableCell>{ele[1]}</TableCell>
+                                            <TableCell>{rows[0]}</TableCell>
+                                            <TableCell>{rows[1]}</TableCell>
                                         </TableRow>
                                     ))
 

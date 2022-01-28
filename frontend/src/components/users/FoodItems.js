@@ -26,7 +26,7 @@ import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
+import Divider from "@mui/material/Divider";
 
 const FoodItems = (props) => {
 	const [sortName, setSortName] = useState(true);
@@ -36,6 +36,7 @@ const FoodItems = (props) => {
 	const [users, setUsers] = useState([]);
 	const [users1, setUsers1] = useState([]);
 	const [users2, setUsers2] = useState([]);
+	const [users3, setUsers3] = useState([]);
 	const [search, setSearch] = useState("");
 	const [value, setValue] = React.useState([0, 500]);
 	const [personName, setPersonName] = React.useState([]);
@@ -71,6 +72,14 @@ const FoodItems = (props) => {
 			.get("http://localhost:4000/orders")
 			.then((response) => {
 				setUsers2(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		axios
+			.get("http://localhost:4000/favourites")
+			.then((response) => {
+				setUsers3(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -130,7 +139,33 @@ const FoodItems = (props) => {
 		setUsers(usersTemp);
 		setSortName1(!sortName1);
 	};
+	const onFavourite = ({ name, price, shopname, rating, vegornveg, addon1, addon2, addon3, addon4, tags }) => {
+		const newUser = {
+			itemname: name,
+			buyername: ls.get("name"),
+			price: price,
+			shopname: shopname,
+			rating: 0,
+			vegornveg: vegornveg,
+			addon1: addon1,
+			addon2: addon2,
+			addon3: addon3,
+			addon4: addon4,
+			tags: tags,
+		};
+		console.log(newUser);
+		axios
+			.post("http://localhost:4000/favourites/addfav", newUser)
+			.then((response) => {
+				alert(response.data);
+				console.log(response.data);
+		window.location.reload();
 
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 	const onSubmit = ({ name, price, shopname, vegornveg, addon1, addon2, addon3, addon4 }) => {
 		const newUser = {
 			shopname: shopname,
@@ -203,8 +238,58 @@ const FoodItems = (props) => {
 					</Toolbar>
 				</AppBar>
 			</Box>
-			<Grid style={{ marginTop: "100px" }} container align={"center"} spacing={2}>
+
+			<Grid style={{ marginTop: "60px" }} container align={"center"} spacing={2}>
 				<Grid item xs={12}>
+					<div><h1>Favourites</h1></div>
+
+					<Paper>
+						<Table size="small">
+							<TableHead>
+								<TableRow>
+									<TableCell>Name</TableCell>
+									<TableCell>Price</TableCell>
+									<TableCell>Shop Name</TableCell>
+									<TableCell>Rating</TableCell>
+									<TableCell>Type</TableCell>
+									<TableCell>Addon 1</TableCell>
+									<TableCell>Addon 2</TableCell>
+									<TableCell>Addon 3</TableCell>
+									<TableCell>Addon 4</TableCell>
+									<TableCell>Tags</TableCell>
+									<TableCell></TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{users3.map((user, ind) => (
+									<>
+										{user.buyername === ls.get("name") &&
+											<TableRow key={ind}>
+												<TableCell>{user.itemname}</TableCell>
+												<TableCell>{user.price}</TableCell>
+												<TableCell>{user.shopname}</TableCell>
+												<TableCell>{user.rating}</TableCell>
+												<TableCell>{user.vegornveg}</TableCell>
+												<TableCell>{user.addon1}</TableCell>
+												<TableCell>{user.addon2}</TableCell>
+												<TableCell>{user.addon3}</TableCell>
+												<TableCell>{user.addon4}</TableCell>
+												<TableCell>{user.tags}</TableCell>
+												<TableCell>
+													<Button variant="contained" onClick={() => onSubmit({ name: user.itemname, price: user.price, shopname: user.shopname, vegornveg: user.vegornveg, addon1: user.addon1, addon2: user.addon2, addon3: user.addon3, addon4: user.addon4 })}>
+														Order
+													</Button>
+												</TableCell>
+											</TableRow>
+										}
+									</>
+								))}
+							</TableBody>
+						</Table>
+					</Paper>
+				</Grid>
+				<Grid item sx={{ mt: 3 }} xs={12}>
+					<div><h1>Filters</h1></div>
 					<TextField
 						id="standard-basic"
 						label="Search"
@@ -282,7 +367,9 @@ const FoodItems = (props) => {
 						</Button>
 					</FormControl>
 				</Grid>
+
 				<Grid item xs={12}>
+					<div><h1>All Food Items</h1></div>
 					<Paper>
 						<Table size="small">
 							<TableHead>
@@ -307,6 +394,7 @@ const FoodItems = (props) => {
 									<TableCell>Addon 4</TableCell>
 									<TableCell>Tags</TableCell>
 									<TableCell></TableCell>
+									<TableCell></TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -325,6 +413,11 @@ const FoodItems = (props) => {
 												<TableCell>{user.addon3}</TableCell>
 												<TableCell>{user.addon4}</TableCell>
 												<TableCell>{user.tags}</TableCell>
+												<TableCell>
+													<Button variant="contained" onClick={() => onFavourite({ name: user.name, price: user.price, shopname: user.shopname, rating: user.rating, vegornveg: user.vegornveg, addon1: user.addon1, addon2: user.addon2, addon3: user.addon3, addon4: user.addon4, tags: user.tags })}>
+														Favourite
+													</Button>
+												</TableCell>
 												<TableCell>
 													<Button variant="contained" onClick={() => onSubmit({ name: user.name, price: user.price, shopname: user.shopname, vegornveg: user.vegornveg, addon1: user.addon1, addon2: user.addon2, addon3: user.addon3, addon4: user.addon4 })}>
 														Order

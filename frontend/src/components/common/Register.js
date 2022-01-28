@@ -118,13 +118,13 @@ const Register = (props) => {
 				.then((response) => {
 					if (response.data !== "Email already exists") {
 						alert("Registered" + " " + response.data.name + " Successfully");
+						navigate("/login");
 					}
 					else
 						alert(response.data);
 					console.log(response.data);
 				});
-
-			resetInputs();
+				resetInputs();
 		}
 	};
 
@@ -158,6 +158,7 @@ const Register = (props) => {
 				.then((response) => {
 					if (response.data !== "Email already exists") {
 						alert("Registered" + " " + response.data.name + " Successfully");
+						navigate("/login");
 					}
 					else
 						alert(response.data);

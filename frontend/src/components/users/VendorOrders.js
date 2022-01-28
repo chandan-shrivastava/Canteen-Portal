@@ -192,40 +192,40 @@ const BuyerOrders = (props) => {
                             <TableBody>
                                 {users.map((user, ind) => (
                                     <>
-                                        {/* {ls.get("shopname") === user.vendorname && */}
-                                        <TableRow key={ind}>
-                                            <TableCell>{user.date}</TableCell>
-                                            <TableCell>{user.vendorname}</TableCell>
-                                            <TableCell>{user.item}</TableCell>
-                                            <TableCell>{user.quantity}</TableCell>
-                                            <TableCell>{user.vegornveg}</TableCell>
-                                            <TableCell>{user.addon}</TableCell>
-                                            <TableCell>{user.cost}</TableCell>
-                                            <TableCell>{user.status}</TableCell>
-                                            {user.status !== "PLACED" && user.status !== "READY FOR PICKUP" && user.status !== "COMPLETED" && user.status !== "REJECTED" &&
-                                                <TableCell>
-                                                    <Button variant="contained" onClick={() => onChange({ id: user._id, status: user.status, email: user.buyeremail })}>
-                                                        Next Stage
-                                                    </Button>
-                                                </TableCell>
-                                            }
-                                            {user.status === "PLACED" &&
-                                                <>
+                                        {ls.get("shopname") === user.vendorname &&
+                                            <TableRow key={ind}>
+                                                <TableCell>{user.date}</TableCell>
+                                                <TableCell>{user.vendorname}</TableCell>
+                                                <TableCell>{user.item}</TableCell>
+                                                <TableCell>{user.quantity}</TableCell>
+                                                <TableCell>{user.vegornveg}</TableCell>
+                                                <TableCell>{user.addon}</TableCell>
+                                                <TableCell>{user.cost}</TableCell>
+                                                <TableCell>{user.status}</TableCell>
+                                                {user.status !== "PLACED" && user.status !== "READY FOR PICKUP" && user.status !== "COMPLETED" && user.status !== "REJECTED" &&
                                                     <TableCell>
+                                                        <Button variant="contained" onClick={() => onChange({ id: user._id, status: user.status, email: user.buyeremail })}>
+                                                            Next Stage
+                                                        </Button>
+                                                    </TableCell>
+                                                }
+                                                {user.status === "PLACED" &&
+                                                    <>
+                                                        <TableCell>
 
-                                                        <Button variant="contained" onClick={() => onAccept({ id: user._id, cost: user.cost })}>
-                                                            Accept
-                                                        </Button>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Button variant="contained" onClick={() => onReject({ id: user._id, cost: user.cost, email: user.buyeremail })}>
-                                                            Reject
-                                                        </Button>
-                                                    </TableCell>
-                                                </>
-                                            }
-                                        </TableRow>
-                                        {/* } */}
+                                                            <Button variant="contained" onClick={() => onAccept({ id: user._id, cost: user.cost })}>
+                                                                Accept
+                                                            </Button>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Button variant="contained" onClick={() => onReject({ id: user._id, cost: user.cost, email: user.buyeremail })}>
+                                                                Reject
+                                                            </Button>
+                                                        </TableCell>
+                                                    </>
+                                                }
+                                            </TableRow>
+                                        }
                                     </>
                                 ))}
                             </TableBody>

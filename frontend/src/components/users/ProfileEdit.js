@@ -89,7 +89,7 @@ const ProfileEdit = (props) => {
 		axios
 			.post("http://localhost:4000/user/profile/edit", newUser)
 			.then((response) => {
-				alert("Edited" + " " + response.data.name + " Successfully");
+				alert("Profile Edited" + " Successfully");
 				console.log(response.data);
 				alert("Please login again");
 				navigate('/login');

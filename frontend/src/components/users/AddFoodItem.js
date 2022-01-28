@@ -127,7 +127,7 @@ const FoodItem = (props) => {
             axios
                 .post("http://localhost:4000/vendor/addfood", newUser)
                 .then((response) => {
-                    alert("Added" + " " + response.data.name + " Successfully");
+                    alert("Added" + " " + response.data.name + " to Menu Successfully");
                     console.log(response.data);
                 })
                 .catch((error) => {
@@ -231,6 +231,7 @@ const FoodItem = (props) => {
                             variant="outlined"
                             value={addon1}
                             onChange={onChangeAddon1}
+                            helperText="Format: Addon,Price"
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -238,6 +239,7 @@ const FoodItem = (props) => {
                             label="Addon 2"
                             variant="outlined"
                             value={addon2}
+                            helperText="Format: Addon,Price"
                             onChange={onChangeAddon2}
                         />
                     </Grid>
@@ -246,6 +248,7 @@ const FoodItem = (props) => {
                             label="Addon 3"
                             variant="outlined"
                             value={addon3}
+                            helperText="Format: Addon,Price"
                             onChange={onChangeAddon3}
                         />
                     </Grid>
@@ -254,6 +257,7 @@ const FoodItem = (props) => {
                             label="Addon 4"
                             variant="outlined"
                             value={addon4}
+                            helperText="Format: Addon,Price"
                             onChange={onChangeAddon4}
                         />
                     </Grid>

@@ -151,8 +151,8 @@ const FoodMenu = (props) => {
 							</TableHead>
 							<TableBody>
 								{users.map((user, ind) => (
-									// <>
-									// 	{ls.get("shopname") === user.shopname &&
+									<>
+										{ls.get("shopname") === user.shopname &&
 											<TableRow key={ind}>
 												<TableCell>{ind + 1}</TableCell>
 												<TableCell>{user.name}</TableCell>
@@ -178,8 +178,8 @@ const FoodMenu = (props) => {
 													</Button>
 												</TableCell>
 											</TableRow>
-										// }
-										// </>
+										}
+										</>
 								))}
 							</TableBody>
 						</Table>
