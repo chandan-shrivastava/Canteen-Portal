@@ -6,5 +6,8 @@
   "engines": {
     "node": "14.18.3",
     "npm": "8.3.2"
+  },
+  "dependencies": {
+    "dotenv": "^14.3.2"
   }
 }
