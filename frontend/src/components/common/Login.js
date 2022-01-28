@@ -49,7 +49,7 @@ const Login = (props) => {
       };
       console.log(newUser);
       axios
-        .post("http://localhost:4000/user/login", newUser)
+        .post("https://mern-chandan.herokuapp.com/user/login", newUser)
         .then((response) => {
           alert("Logged" + " " + response.data.name + " Successfully");
           console.log(response.data);

@@ -87,7 +87,7 @@ const ProfileEdit = (props) => {
 		};
 		console.log(newUser);
 		axios
-			.post("http://localhost:4000/user/profile/edit", newUser)
+			.post("https://mern-chandan.herokuapp.com/user/profile/edit", newUser)
 			.then((response) => {
 				alert("Edited" + " " + response.data.name + " Successfully");
 				console.log(response.data);

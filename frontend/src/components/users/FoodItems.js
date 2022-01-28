@@ -52,7 +52,7 @@ const FoodItems = (props) => {
 
 	useEffect(() => {
 		axios
-			.get("http://localhost:4000/vendor")
+			.get("https://mern-chandan.herokuapp.com/vendor")
 			.then((response) => {
 				setUsers(response.data);
 			})
@@ -60,7 +60,7 @@ const FoodItems = (props) => {
 				console.log(error);
 			});
 		axios
-			.get("http://localhost:4000/user")
+			.get("https://mern-chandan.herokuapp.com/user")
 			.then((response) => {
 				setUsers1(response.data);
 			})
@@ -68,7 +68,7 @@ const FoodItems = (props) => {
 				console.log(error);
 			});
 		axios
-			.get("http://localhost:4000/orders")
+			.get("https://mern-chandan.herokuapp.com/orders")
 			.then((response) => {
 				setUsers2(response.data);
 			})
@@ -136,7 +136,7 @@ const FoodItems = (props) => {
 			shopname: shopname,
 		};
 		axios
-			.post("http://localhost:4000/user/gettime", newUser)
+			.post("https://mern-chandan.herokuapp.com/user/gettime", newUser)
 			.then((response) => {
 				openinghours = response.data.openingtime.substring(11, 13);
 				closinghours = response.data.closingtime.substring(11, 13);

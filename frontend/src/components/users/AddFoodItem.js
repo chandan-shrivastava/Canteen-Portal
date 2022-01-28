@@ -125,7 +125,7 @@ const FoodItem = (props) => {
             };
             console.log(newUser);
             axios
-                .post("http://localhost:4000/vendor/addfood", newUser)
+                .post("https://mern-chandan.herokuapp.com/vendor/addfood", newUser)
                 .then((response) => {
                     alert("Added" + " " + response.data.name + " Successfully");
                     console.log(response.data);
