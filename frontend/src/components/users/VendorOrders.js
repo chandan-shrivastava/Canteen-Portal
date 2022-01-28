@@ -24,7 +24,7 @@ const BuyerOrders = (props) => {
 
     useEffect(() => {
         axios
-            .get("https://mern-chandan.herokuapp.com/orders")
+            .get("http://localhost:4000/orders")
             .then((response) => {
                 setUsers(response.data);
                 console.log(response.data);
@@ -51,7 +51,7 @@ const BuyerOrders = (props) => {
         };
         console.log(newUser);
         axios
-            .post("https://mern-chandan.herokuapp.com/orders/changestatus", newUser)
+            .post("http://localhost:4000/orders/changestatus", newUser)
             .then((response) => {
                 window.location.reload();
                 console.log(response.data);
@@ -76,7 +76,7 @@ const BuyerOrders = (props) => {
             };
             console.log(newUser);
             axios
-                .post("https://mern-chandan.herokuapp.com/orders/changestatus", newUser)
+                .post("http://localhost:4000/orders/changestatus", newUser)
                 .then((response) => {
                     const vendorname = response.data.vendorname;
                     const buyername = response.data.buyername;
@@ -92,7 +92,7 @@ const BuyerOrders = (props) => {
             };
             console.log(newUser1);
             axios
-                .post("https://mern-chandan.herokuapp.com/user/ordermoneysub", newUser1)
+                .post("http://localhost:4000/user/ordermoneysub", newUser1)
                 .then((response) => {
                     console.log(response.data);
                     ls.set("wallet", response.data.wallet);
@@ -107,7 +107,7 @@ const BuyerOrders = (props) => {
             status: status,
         };
         axios
-            .post("https://mern-chandan.herokuapp.com/orders/changestatus", newUser)
+            .post("http://localhost:4000/orders/changestatus", newUser)
             .then((response) => {
                 const vendorname = response.data.vendorname;
                 const buyername = response.data.buyername;
@@ -123,7 +123,7 @@ const BuyerOrders = (props) => {
         };
         console.log(newUser1);
         axios
-            .post("https://mern-chandan.herokuapp.com/user/ordermoneysub", newUser1)
+            .post("http://localhost:4000/user/ordermoneysub", newUser1)
             .then((response) => {
                 console.log(response.data);
                 window.location.reload();

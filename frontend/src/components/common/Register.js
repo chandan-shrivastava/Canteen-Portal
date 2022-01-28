@@ -114,7 +114,7 @@ const Register = (props) => {
 			};
 			console.log(newUser);
 			axios
-				.post("https://mern-chandan.herokuapp.com/user/register", newUser)
+				.post("http://localhost:4000/user/register", newUser)
 				.then((response) => {
 					if (response.data !== "Email already exists") {
 						alert("Registered" + " " + response.data.name + " Successfully");
@@ -154,7 +154,7 @@ const Register = (props) => {
 			};
 			console.log(newUser);
 			axios
-				.post("https://mern-chandan.herokuapp.com/user/register", newUser)
+				.post("http://localhost:4000/user/register", newUser)
 				.then((response) => {
 					if (response.data !== "Email already exists") {
 						alert("Registered" + " " + response.data.name + " Successfully");

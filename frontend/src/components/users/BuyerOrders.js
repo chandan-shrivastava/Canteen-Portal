@@ -22,7 +22,7 @@ const BuyerOrders = (props) => {
 
 	useEffect(() => {
 		axios
-			.get("https://mern-chandan.herokuapp.com/orders")
+			.get("http://localhost:4000/orders")
 			.then((response) => {
 				setUsers(response.data);
 			})
@@ -46,7 +46,7 @@ const BuyerOrders = (props) => {
 		};
 		console.log(newUser);
 		axios
-			.post("https://mern-chandan.herokuapp.com/orders/changestatus", newUser)
+			.post("http://localhost:4000/orders/changestatus", newUser)
 			.then((response) => {
 				window.location.reload();
 				ls.set('ratingid', id);
