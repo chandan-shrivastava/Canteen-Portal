@@ -36,7 +36,7 @@ const FoodItems = (props) => {
     var freq = new Map();
     useEffect(() => {
         axios
-            .get("https://mern-chandan.herokuapp.com/vendor")
+            .get("http://localhost:4000/vendor")
             .then((response) => {
                 setUsers(response.data);
             })
@@ -44,7 +44,7 @@ const FoodItems = (props) => {
                 console.log(error);
             });
         axios
-            .get("https://mern-chandan.herokuapp.com/user")
+            .get("http://localhost:4000/user")
             .then((response) => {
                 setUsers1(response.data);
             })
@@ -52,7 +52,7 @@ const FoodItems = (props) => {
                 console.log(error);
             });
         axios
-            .get("https://mern-chandan.herokuapp.com/orders")
+            .get("http://localhost:4000/orders")
             .then((response) => {
                 setUsers2(response.data);
             })

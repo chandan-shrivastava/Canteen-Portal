@@ -77,7 +77,7 @@ const FoodItems = (props) => {
                 };
                 console.log(newUser);
                 axios
-                    .post("https://mern-chandan.herokuapp.com/orders/placeorder", newUser)
+                    .post("http://localhost:4000/orders/placeorder", newUser)
                     .then((response) => {
                         alert("Order Placed Successfully");
                         console.log(response.data);
@@ -86,7 +86,7 @@ const FoodItems = (props) => {
                             cost: finalprice,
                         };
                         axios
-                            .post("https://mern-chandan.herokuapp.com/user/ordermoneyadd", newUser1)
+                            .post("http://localhost:4000/user/ordermoneyadd", newUser1)
                             .then((response) => {
                                 ls.set("wallet", response.data.wallet);
                                 console.log(response.data);

@@ -109,7 +109,7 @@ const EditFoodItem = (props) => {
         };
         console.log(newUser);
         axios
-            .post("https://mern-chandan.herokuapp.com/vendor/fooditem/edit", newUser)
+            .post("http://localhost:4000/vendor/fooditem/edit", newUser)
             .then((response) => {
                 alert("Edited" + " " + response.data.name + " Successfully");
                 console.log(response.data);

@@ -22,7 +22,7 @@ const FoodMenu = (props) => {
 
 	useEffect(() => {
 		axios
-			.get("https://mern-chandan.herokuapp.com/vendor")
+			.get("http://localhost:4000/vendor")
 			.then((response) => {
 				setUsers(response.data);
 				console.log("response", response.data);
@@ -67,7 +67,7 @@ const FoodMenu = (props) => {
 		console.log(newUser);
 		const success = false;
 		axios
-			.post("https://mern-chandan.herokuapp.com/vendor/fooditem/delete", newUser)
+			.post("http://localhost:4000/vendor/fooditem/delete", newUser)
 			.then((response) => {
 				window.location.reload();
 				alert("Deleted" + " Successfully");
