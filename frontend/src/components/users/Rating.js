@@ -32,7 +32,7 @@
 //         };
 //         console.log(newUser);
 //         axios
-//             .post("http://localhost:4000/vendor/rating", newUser)
+//             .post("https://mern-chandan.herokuapp.com/vendor/rating", newUser)
 //             .then((response) => {
 //                 alert("Thank you for rating");
 //                 console.log(response.data);

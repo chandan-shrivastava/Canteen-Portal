@@ -30,7 +30,7 @@ const Profile = (props) => {
 
     console.log(newUser);
     axios
-      .post("http://localhost:4000/user/addmoney", newUser)
+      .post("https://mern-chandan.herokuapp.com/user/addmoney", newUser)
       .then((response) => {
         alert("Added" + " " + wallet + " Successfully");
         console.log(response.data.wallet);

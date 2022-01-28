@@ -29,7 +29,7 @@ const UsersList = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/user")
+      .get("https://mern-chandan.herokuapp.com/user")
       .then((response) => {
         setUsers(response.data);
         setSortedUsers(response.data);
