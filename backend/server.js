@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const PORT = 4000;
 const DB_NAME = "tutorial"
 
 // routes
@@ -30,6 +29,6 @@ app.use("/user", UserRouter);
 app.use("/vendor", FoodItem);
 app.use("/orders", Orders);
 
-app.listen(PORT, function() {
-    console.log("Server is running on Port: " + PORT);
+app.listen(process.env.PORT || 4000, function() {
+    console.log("Server is running");
 });
