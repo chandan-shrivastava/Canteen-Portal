@@ -1,10 +1,12 @@
 # Canteen Portal
 
+• A Canteen Portal app based on MERN stack. Functionality to add food item, place order, status of order, interactive dashboard for both buyer and seller.  
+• Dockerized the web-app and hosted it on local Nginx server.
+
 ## Installations
 
 ### Node
 
-* For Linux:
 ```
 curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -23,19 +25,18 @@ npm install -g create-react-app
 
 ## Running the code
 
-* Run Express Backend:
+* In one terminal, run Express Backend:
 ```
 cd backend
 npm install
 npm start
 ```
 
-* Run React Frontend:
+* In another terminalRun React Frontend:
 ```
 cd frontend
 npm install
 npm start
 ```
 
-Navigate to [http://localhost:3000/](http://localhost:3000/) in your browser.
-
+Navigate to [http://localhost:3000/](http://localhost:3000/) in your browser to access the website.
