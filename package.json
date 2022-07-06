@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install && npm run build",
+    "start": "node backend/server.js"
+  },
+  "engines": {
+    "node": "14.18.3",
+    "npm": "8.3.2"
+  },
+  "dependencies": {
+    "dotenv": "^14.3.2"
+  }
+}
